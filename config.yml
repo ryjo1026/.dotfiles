@@ -1,0 +1,4 @@
+bash:
+  .bash_profile:
+    source: "/bash/.bash_profile"
+    dest: ".bash_profile"
