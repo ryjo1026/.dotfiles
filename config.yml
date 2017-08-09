@@ -2,3 +2,8 @@ bash:
   .bash_profile:
     source: "/bash/.bash_profile"
     dest: ".bash_profile"
+
+python:
+  .pylintrc:
+    source: "/python/.pylintrc"
+    dest: ".pylintrc"

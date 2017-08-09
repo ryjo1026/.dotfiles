@@ -21,7 +21,6 @@ for service in config.itervalues():
         dest = os.path.expanduser('~')+"/"+dotfile['dest']
 
         # Create backup
-        print filecmp.cmp(dest, source, shallow=False)
         if not filecmp.cmp(dest, source, shallow=False):
             print "Files differ; creating backup"
             backupFolder = '{}/backup-{}/'.format(os.getcwd(), time.strftime("%Y%m%d-%H:%M:%S"))

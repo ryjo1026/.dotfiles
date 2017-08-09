@@ -29,3 +29,7 @@ alias "reload"='source ~/.bash_profile'     # Reload for changes to take effect
 
 # Folder Shortcuts
 # TODO
+
+
+export PATH=~/Library/Python/2.7/bin/:$PATH
+export PATH=~/.local/bin/:$PATH
