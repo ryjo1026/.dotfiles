@@ -20,3 +20,8 @@ vim:
   .vimrc:
     source: "/vim/.vimrc"
     dest: ".vimrc"
+
+zsh:
+  .zshrc:
+    source: "/zsh/.zshrc"
+    dest:  ".zshrc"
