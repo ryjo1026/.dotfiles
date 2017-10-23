@@ -15,3 +15,8 @@ atom:
   snippets.cson:
     source: "/atom/snippets.cson"
     dest: ".atom/snippets.cson"
+
+vim:
+  .vimrc:
+    source: "/vim/.vimrc"
+    dest: ".vimrc"

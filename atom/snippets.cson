@@ -1,6 +1,10 @@
 # Atom snippets
 # Customizes 'snippet' templates for the atom editor
 
+#  -----------------------------
+#  C++
+#  -----------------------------
+
 '.source.cpp':
   'C++ Unit test':
     'prefix': 'Unit Test'
@@ -10,6 +14,19 @@
               cout<<"${1:testName} PASS"<<endl;
             }
             """
+
+#  -----------------------------
+#  Javascript
+#  -----------------------------
+
+'.source.javascript':
+  'Console Log':
+    'prefix': 'console'
+    'body': 'console.log($1);'
+
+#  -----------------------------
+#  Python
+#  -----------------------------
 
 '.source.python':
   'main':

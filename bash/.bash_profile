@@ -33,3 +33,4 @@ alias "reload"='source ~/.bash_profile'     # Reload for changes to take effect
 
 export PATH=~/Library/Python/2.7/bin/:$PATH
 export PATH=~/.local/bin/:$PATH
+export PATH=/Library/TeX/texbin/pdftex:$PATH
