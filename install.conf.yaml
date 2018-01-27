@@ -1,0 +1,13 @@
+- defaults:
+    link:
+        relink: true
+- link:
+    # Shells
+    ~/.zshrc: zsh/.zshrc
+    ~/.bash_profile: bash/.bash_profile
+    # Editors
+    ~/.vimrc: vim/.vimrc
+    ~/.atom/keymap.cson: atom/keymap.cson
+    ~/.atom/snippets.cson: atom/snippets.cson
+    # Languages
+    ~/.pylintrc: python/.pylintrc

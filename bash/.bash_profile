@@ -28,7 +28,7 @@ alias "browsersync"='browser-sync start --server --files "."' # Watch all files 
 alias "reload"='source ~/.bash_profile'     # Reload for changes to take effect
 
 # Folder Shortcuts
-# TODO
+alias "eecs281"='cd /Users/ryanjohnston/Documents/UMich_Programming/EECS281'
 
 
 export PATH=~/Library/Python/2.7/bin/:$PATH

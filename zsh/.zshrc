@@ -87,3 +87,7 @@ DEFAULT_USER="ryanjohnston"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias "newtab"='open . -a iterm'
+wd() {
+  . /Users/ryanjohnston/bin/wd/wd.sh
+}
