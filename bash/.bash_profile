@@ -1,15 +1,7 @@
-#  ---------------------------------------------------------------------------
-#
-#  Description:  This file holds all my BASH configurations and aliases
-#
-#  Sections:
-#  1.   Aliases
-#
-#  ---------------------------------------------------------------------------
+# Sections:
+#   -Aliases
 
-#  -----------------------------
-#  1. Aliases
-#  -----------------------------
+# Aliases ---------------------------------------------------
 # Command Shortcuts
 alias ls='ls -G'                            # Prefferred ls (Color)
 alias la='ls -la'                           # Shortcut list all
@@ -27,8 +19,6 @@ alias "^L"='clear'                          # Ensure ctrl+l is clear
 alias "browsersync"='browser-sync start --server --files "."' # Watch all files in dir for changes
 alias "reload"='source ~/.bash_profile'     # Reload for changes to take effect
 
-# Folder Shortcuts
-alias "eecs281"='cd /Users/ryanjohnston/Documents/UMich_Programming/EECS281'
 
 
 export PATH=~/Library/Python/2.7/bin/:$PATH

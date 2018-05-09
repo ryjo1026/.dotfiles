@@ -1,20 +1,19 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible
+filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-" let Vundle manage Vundle, required
+" Plugins --------------------------------------------------
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'chriskempson/base16-vim'    " base16 color themes
+
+call vundle#end()
+filetype plugin indent on
+
 
 " ##########################################################
 " User Settings (@ryjo1026)
 " ##########################################################
-
-" Plugins --------------------------------------------------
-Plugin 'chriskempson/base16-vim'    " Install base16 color theme
-
-call vundle#end()            " required
-filetype plugin indent on    " required
 
 " Shortcuts ------------------------------------------------
 " Tabs convert to 4 spaces
@@ -32,4 +31,6 @@ noremap <Right> <NOP>
 " Visuals --------------------------------------------------
 colorscheme base16-default-dark     " Apply dark theme
 syntax on                           " Always turn on syntax highlighting (TODO only for certain filetypes)
-set number
+set number                          " Add line numbers
+set colorcolumn=110                 " Add a line cuttoff at 110 characters
+highlight ColorColumn ctermbg=darkgray
