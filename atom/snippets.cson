@@ -19,10 +19,38 @@
 #  Javascript
 #  -----------------------------
 
-'.source.javascript':
+'.source.javascript, .source.jsx,':
   'Console Log':
     'prefix': 'console'
     'body': 'console.log($1);'
+  'React Class Component':
+    'prefix': 'ReactClass'
+    'body': """
+            import React from 'react';
+            import PropTypes from 'prop-types';
+
+            export default class ${1:componentName} extends React.Component {
+              render() {
+                return (
+                  <div className="${1:componentName}">
+                    $2
+                  </div>);
+              }
+            }
+            """
+  'React Functional Component':
+    'prefix': 'ReactFunction'
+    'body': """
+            import React from 'react';
+            import PropTypes from 'prop-types';
+
+            export default function ${1:componentName}() {
+              return (
+                <div className="${1:componentName}">
+                  $2
+                </div>);
+            }
+            """
 
 #  -----------------------------
 #  Python

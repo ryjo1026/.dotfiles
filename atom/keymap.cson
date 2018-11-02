@@ -3,12 +3,6 @@
 
 # Keybinding Resolver: `Cmd+.` on OS X and `Ctrl+.` on other platforms.
 
-# Make command-palette more accessible
-'.platform-darwin, .platform-darwin .command-palette atom-text-editor':
-  'cmd-p': 'command-palette:toggle'
-'.platform-darwin':
-  'shift-cmd-P': 'fuzzy-finder:toggle-file-finder'
-
 # Make Git tab more accessible
 '.workspace':
   'ctrl-g': 'github:toggle-git-tab'

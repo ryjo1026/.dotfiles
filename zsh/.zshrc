@@ -8,7 +8,7 @@ export ZSH=/Users/ryanjohnston/.oh-my-zsh
 ZSH_THEME="agnoster"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
@@ -37,13 +37,31 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 # CUSTOM ALIASES
 # ----------------------------------------
 alias "newtab"='open . -a iterm'                        # Open pwd in new iTerm tab
-alias "kraken"='open -na "GitKraken" --args -p $(pwd)'  # Open pwd in GitKraken
+alias "kraken"='open -na "GitKraken" --args -p $(pwd)'  # Open pwd in 
+
+# ----------------------------------------
+# CUSTOM FUNTIONS
+# ----------------------------------------
+function mkcd() {
+    mkdir $1 && cd $1
+}
 
 # Include warp directory script
 wd() {
   . /Users/ryanjohnston/bin/wd/wd.sh
 }
 
-export NVM_DIR="$HOME/.nvm"
+export NVM_DIR=/Users/ryanjohnston/.nvm
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Load in OpenSSL vars
+export CPPFLAGS=-I/usr/local/opt/openssl/include
+export LDFLAGS=-L/usr/local/opt/openssl/lib
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/ryanjohnston/Development/EventbriteAlexaSkill/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/ryanjohnston/Development/EventbriteAlexaSkill/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/ryanjohnston/Development/EventbriteAlexaSkill/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/ryanjohnston/Development/EventbriteAlexaSkill/node_modules/tabtab/.completions/sls.zsh
