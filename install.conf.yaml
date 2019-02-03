@@ -11,3 +11,4 @@
     ~/.atom/snippets.cson: atom/snippets.cson
     # Languages
     ~/.pylintrc: python/.pylintrc
+    ~/.eslintrc: eslint/.eslintrc
