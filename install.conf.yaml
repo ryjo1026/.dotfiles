@@ -1,9 +1,19 @@
 - defaults:
     link:
+        create: true
+        force: true
         relink: true
+
+- clean: ['~']
+
 - link:
     # Shells
     ~/.zshrc: zsh/.zshrc
+    ~/.zsh/.zsh_plugins.txt: zsh/.zsh_plugins.txt
+    ~/.zsh/:
+        glob: true
+        path: zsh/*.zsh
+    
     ~/.bash_profile: bash/.bash_profile
     # Editors
     ~/.vimrc: vim/.vimrc
@@ -12,3 +22,6 @@
     # Languages
     ~/.pylintrc: python/.pylintrc
     ~/.eslintrc: eslint/.eslintrc
+
+- shell:
+  - [git submodule update --remote dotbot, Installing submodules]

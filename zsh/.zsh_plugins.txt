@@ -1,0 +1,11 @@
+zdharma/fast-syntax-highlighting                            # Color the current command
+zsh-users/zsh-autosuggestions                               # Show autocompletion suggestion from history
+zsh-users/zsh-completions                                   # Add additonal completions
+
+agnoster/agnoster-zsh-theme                                 # Agnoster theme
+
+rupa/z                                                      # Allows for cd shortcutting based on frequency
+robbyrussell/oh-my-zsh path:plugins/colored-man-pages       # Color man pages
+robbyrussell/oh-my-zsh path:plugins/git                     # Useful git aliases
+robbyrussell/oh-my-zsh path:plugins/pip                     # Autocomplete for pip commands
+
