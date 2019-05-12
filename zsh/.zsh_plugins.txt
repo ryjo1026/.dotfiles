@@ -5,7 +5,9 @@ zsh-users/zsh-completions                                   # Add additonal comp
 agnoster/agnoster-zsh-theme                                 # Agnoster theme
 
 rupa/z                                                      # Allows for cd shortcutting based on frequency
+paulirish/git-open                                          # Open github repos in the webrowser
 robbyrussell/oh-my-zsh path:plugins/colored-man-pages       # Color man pages
 robbyrussell/oh-my-zsh path:plugins/git                     # Useful git aliases
 robbyrussell/oh-my-zsh path:plugins/pip                     # Autocomplete for pip commands
+                      
 
