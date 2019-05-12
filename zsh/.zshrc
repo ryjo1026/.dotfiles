@@ -8,8 +8,8 @@ if [[ $(command -v antibody) == "" ]]; then
 fi
 
 # Load all .zsh config files from ~/.zsh
-if [ -d .zsh ]; then
-  for file in ./.zsh/*.zsh; do 
+if [ -d ~/.zsh ]; then
+  for file in ~/.zsh/*.zsh; do 
       if [ -f "$file" ]; then
           source $file
       fi
@@ -20,14 +20,14 @@ fi
 
 # Load antibody plugins TODO static speedup?
 source <(antibody init)
-antibody bundle < .zsh/.zsh_plugins.txt
+antibody bundle < ~/.zsh/.zsh_plugins.txt
 
 # Dynamically load macOS specific plugins
 if [[ "$(uname 2> /dev/null)" == "Darwin" ]]; then
   antibody bundle robbyrussell/oh-my-zsh path:plugins/brew
 
   # iTerm shell extensions
-  if [ -f .iterm2_shell_integration.zsh ]; then
-    source .iterm2_shell_integration.zsh
+  if [ -f ~/.iterm2_shell_integration.zsh ]; then
+    source ~/.iterm2_shell_integration.zsh
   fi
 fi
