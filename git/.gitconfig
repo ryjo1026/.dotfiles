@@ -1,0 +1,17 @@
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[user]
+	name = Ryan Johnston
+	email = ryjo1026@gmail.com
+	signingkey = F5C69966C2B2A4FB
+[core]
+	editor = vim
+[gpg]
+	program = gpg
+[commit]
+	gpgsign = true
+[tag]
+	forceSignAnnotated = false

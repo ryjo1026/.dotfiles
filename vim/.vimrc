@@ -22,6 +22,12 @@ Plugin 'chriskempson/base16-vim'    " base16 color themes
 call vundle#end()
 filetype plugin indent on
 
+" Install packages if first run
+if vundleInstalled == 0
+  echo "Installing Bundles, please ignore key map error messages"
+  echo ""
+  :PluginInstall
+endif
 
 " ##########################################################
 " User Settings (@ryjo1026)
@@ -52,11 +58,3 @@ set number                          " Add line numbers
 set colorcolumn=110                 " Add a line cuttoff at 110 characters
 highlight ColorColumn ctermbg=darkgray
 
-" ##########################################################
-
-" Install packages if first run
-if vundleInstalled == 0
-  echo "Installing Bundles, please ignore key map error messages"
-  echo ""
-  :PluginInstall
-endif

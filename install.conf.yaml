@@ -13,7 +13,6 @@
     ~/.zsh/:
         glob: true
         path: zsh/*.zsh
-    
     ~/.bash_profile: bash/.bash_profile
     # Editors
     ~/.vimrc: vim/.vimrc
@@ -22,6 +21,8 @@
     # Languages
     ~/.pylintrc: python/.pylintrc
     ~/.eslintrc: eslint/.eslintrc
+    # Other
+    ~/.gitconfig: git/.gitconfig
 
 - shell:
   - [git submodule update --remote dotbot, Installing submodules]
