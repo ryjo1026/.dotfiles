@@ -12,6 +12,7 @@
 [gpg]
 	program = gpg
 [commit]
+    message = ~/.gitmessage
 	gpgsign = true
 [tag]
 	forceSignAnnotated = false

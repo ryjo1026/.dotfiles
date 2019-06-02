@@ -23,6 +23,7 @@
     ~/.eslintrc: eslint/.eslintrc
     # Other
     ~/.gitconfig: git/.gitconfig
+    ~/.gitmessage: git/.gitmessage
 
 - shell:
   - [git submodule update --remote dotbot, Installing submodules]
