@@ -12,7 +12,7 @@
 [gpg]
 	program = gpg
 [commit]
-    message = ~/.gitmessage
+    template = ~/.gitmessage
 	gpgsign = true
 [tag]
 	forceSignAnnotated = false
