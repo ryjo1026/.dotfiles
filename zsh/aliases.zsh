@@ -7,6 +7,7 @@ alias "kraken"='open -na "GitKraken" --args -p $(pwd)'  # Open pwd in GitKraken
 alias "chrome"='open -a "Google Chrome"'                # Open file in Chrome (best used with .html)
 
 alias "zshrc"='source ~/.zshrc'                         # Reload the shell with preferences
+alias "serve"='python3 -m http.server 8000'             # Start the simple python server to serve pwd
 
 alias "grep"='grep --color'                             # Make grep colorful
 alias "ccat"='pygmentize'                               # Make ccat colorful
