@@ -34,6 +34,9 @@ endif
 " ##########################################################
 
 " Settings ------------------------------------------------
+" Make backspace work
+set backspace=indent,eol,start
+
 " Disable writing backup files
 set nobackup
 set nowritebackup
