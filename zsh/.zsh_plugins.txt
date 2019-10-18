@@ -9,5 +9,5 @@ paulirish/git-open                                          # Open github repos 
 robbyrussell/oh-my-zsh path:plugins/colored-man-pages       # Color man pages
 robbyrussell/oh-my-zsh path:plugins/git                     # Useful git aliases
 robbyrussell/oh-my-zsh path:plugins/pip                     # Autocomplete for pip commands
-                      
+robbyrussell/oh-my-zsh path:plugins/docker                  # Autocomplete for docker commands
 

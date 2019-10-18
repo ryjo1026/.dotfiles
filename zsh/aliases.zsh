@@ -14,3 +14,9 @@ alias "ccat"='pygmentize'                               # Make ccat colorful
 alias "ls"='ls -G'                                      # Make ls colorful
 
 alias "la"='ls -la'                                     # la lists all files
+
+# Git
+alias "git_current_branch"='git branch | grep \* | cut -d " " -f2'
+
+# Fun
+alias "vscode-bomb"='while true; do open -a "Safari"; done'
