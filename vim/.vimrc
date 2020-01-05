@@ -18,6 +18,7 @@ call vundle#begin()
 " Plugins --------------------------------------------------
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'chriskempson/base16-vim'    " base16 color themes
+Plugin 'vim-scripts/AutoClose'
 
 call vundle#end()
 filetype plugin indent on
