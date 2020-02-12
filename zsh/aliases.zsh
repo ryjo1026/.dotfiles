@@ -19,7 +19,7 @@ alias "mkdirs"='mkdir -p'                               # mkdirs makes directori
 
 # Git
 alias "git_current_branch"='git branch | grep \* | cut -d " " -f2'
-alias "gh"='cat ~/.zsh/git-aliases.txt | less'          # Print out "help" for git aliases
+alias "ghe"='cat ~/.zsh/git-aliases.txt | less'         # Print out "help" for git aliases
 
 # Fun
 alias "vscode-bomb"='while true; do open -a "Safari"; done'
