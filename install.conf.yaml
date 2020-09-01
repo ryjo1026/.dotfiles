@@ -16,6 +16,7 @@
     ~/.bash_profile: bash/.bash_profile
     # Editors
     ~/.vimrc: vim/.vimrc
+    ~/.vim: vim/.vim
     ~/.atom/keymap.cson: atom/keymap.cson
     ~/.atom/snippets.cson: atom/snippets.cson
     # Languages
