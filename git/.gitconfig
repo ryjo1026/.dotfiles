@@ -1,20 +1,17 @@
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-[user]
-	name = Ryan Johnston
-	email = ryjo1026@gmail.com
-	signingkey = F5C69966C2B2A4FB
 [core]
 	editor = vim
-[gpg]
+	pager = less -FMRiX
 	program = gpg
+	excludesfile = /Users/mrynjoh/.gitignore
 [commit]
     template = ~/.gitmessage
-	gpgsign = true
 [tag]
 	forceSignAnnotated = false
 [pull]
 	ff = only
+[color]
+	ui = auto
+[push]
+	default = simple
+[alias]
+	dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)%an <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order

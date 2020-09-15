@@ -25,6 +25,7 @@
     # Other
     ~/.gitconfig: git/.gitconfig
     ~/.gitmessage: git/.gitmessage
+    ~/.gitignore: git/.gitignore
 
 - shell:
   - [git submodule update --remote dotbot, Installing submodules]
