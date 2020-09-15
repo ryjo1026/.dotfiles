@@ -9,6 +9,8 @@ set nowritebackup
 " Shortcuts ------------------------------------------------
 " Tabs convert to 4 spaces
 filetype plugin indent on
+syntax enable
+set smartindent
 set tabstop=4
 set shiftwidth=4
 set expandtab
@@ -20,7 +22,6 @@ noremap <Left> <NOP>
 noremap <Right> <NOP>
 
 " Visuals --------------------------------------------------
-syntax on                           " Always turn on syntax highlighting (TODO only for certain filetypes)
 colorscheme onedark                 " Load onedark theme (joshdick/onedark)
 set number                          " Add line numbers
 set colorcolumn=110                 " Add a line cuttoff at 110 characters
