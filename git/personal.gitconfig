@@ -1,3 +1,7 @@
+[user]
+	name = Ryan Johnston
+	email = ryjo1026@gmail.com
+	signingkey = F5C69966C2B2A4FB
 [core]
 	editor = vim
 	pager = less -FMRiX
@@ -5,13 +9,14 @@
 	excludesfile = ~/.gitignore
 [commit]
     template = ~/.gitmessage
+	gpgsign = true
+[gpg]
+	program = gpg
 [tag]
 	forceSignAnnotated = false
 [push]
-	default = simple
+	default = simple	
 [pull]
 	ff = only
 [color]
 	ui = auto
-[alias]
-	dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)%an <%ae>%C(reset) %C(magenta)%cr%C(reset)%C(auto)%d%C(reset)%n%s' --date-order

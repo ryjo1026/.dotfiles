@@ -7,25 +7,59 @@
 - clean: ['~']
 
 - link:
-    # Shells
+    
+    # --- Shells ---
     ~/.zshrc: zsh/.zshrc
     ~/.zsh/.zsh_plugins.txt: zsh/.zsh_plugins.txt
     ~/.zsh/:
         glob: true
         path: zsh/*.zsh
+    # Link platform specific files in accordingly
+    ~/.zshrc.mac: 
+        if: '[ `uname` = Darwin ]'
+        path: zsh/.zshrc.mac
+
+    # Useful fallback if ZSH is not installed 
     ~/.bash_profile: bash/.bash_profile
-    # Editors
+    
+    # --- Editors ---
     ~/.vimrc: vim/.vimrc
     ~/.vim: vim/.vim
-    ~/.atom/keymap.cson: atom/keymap.cson
-    ~/.atom/snippets.cson: atom/snippets.cson
-    # Languages
+    # No longer using Atom
+    # ~/.atom/keymap.cson: atom/keymap.cson
+    # ~/.atom/snippets.cson: atom/snippets.cson
+    
+    # --- Languages ---
     ~/.pylintrc: python/.pylintrc
     ~/.eslintrc: eslint/.eslintrc
-    # Other
-    ~/.gitconfig: git/.gitconfig
+    
+    # --- Git ---
     ~/.gitmessage: git/.gitmessage
     ~/.gitignore: git/.gitignore
+
+
+# Hacky way to choose which gitconfig to use
+# If my $USER is the work username use work
+- defaults:
+    link:
+      relink: true
+      if: '[ $USER = "mrynjoh" ]'
+- link:
+    ~/.gitconfig: git/work.gitconfig
+# If my GPG key is present use personal
+- defaults:
+    link:
+      relink: true
+      if: '[ ! $USER = "mrynjoh" ] && gpg --list-keys F5C69966C2B2A4FB'
+- link:
+    ~/.gitconfig: git/personal.gitconfig
+# Otherwise use default
+- defaults:
+    link:
+      relink: true
+      if: '[ ! $USER = "mrynjoh" ] && ! gpg --list-keys F5C69966C2B2A4FB'
+- link:
+    ~/.gitconfig: git/.gitconfig
 
 - shell:
   - [git submodule update --remote dotbot, Installing submodules]
