@@ -7,7 +7,7 @@ if [[ $(command -v antibody) == "" ]]; then
     if [[ -f ~/bin/antibody ]]; then
       PATH=$PATH:~/bin
     else
-      curl -sfL git.io/antibody | sh -s - -b /usr/local/bin
+      curl -sfL git.io/antibody | sh -s - -b ~/bin
     fi
   fi
 fi
