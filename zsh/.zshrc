@@ -3,12 +3,8 @@ if [[ $(command -v antibody) == "" ]]; then
   if [[ "$(uname 2> /dev/null)" == "Darwin" ]] && [[ $(command -v brew) != "" ]]; then
     brew install getantibody/tap/antibody
   else
-    # Handle the specific install method I use on Unraid
-    if [[ -f ~/bin/antibody ]]; then
-      PATH=$PATH:~/bin
-    else
       curl -sfL git.io/antibody | sh -s - -b ~/bin
-    fi
+      export PATH=$PATH:~/bin
   fi
 fi
 
