@@ -8,7 +8,7 @@
 if [ ! "$(whence -w __init_nvm)" = function ]; then
   export NVM_DIR="$HOME/.nvm"
   [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-  declare -a __node_commands=('nvm' 'node' 'npm' 'yarn' 'gulp' 'grunt' 'webpack' 'npm-check')
+  declare -a __node_commands=('nvm' 'node' 'npm' 'yarn' 'gulp' 'grunt' 'webpack' 'npm-check' 'npx')
   function __init_nvm() {
     if [ ! -s "$HOME/.nvm/nvm.sh" ]; then
       read -q "yn?No nvm installation found. Install now? (y/n)"

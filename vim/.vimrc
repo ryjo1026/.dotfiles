@@ -6,6 +6,9 @@ set backspace=indent,eol,start
 set nobackup
 set nowritebackup
 
+" Show regex matches during incremental search
+set is hls
+
 " Shortcuts ------------------------------------------------
 " Tabs convert to 4 spaces
 filetype plugin indent on

@@ -1,6 +1,7 @@
 zdharma/fast-syntax-highlighting                            # Color the current command
 zsh-users/zsh-autosuggestions                               # Show autocompletion suggestion from history
 zsh-users/zsh-completions                                   # Add additonal completions
+marlonrichert/zsh-edit branch:main                          # Add a bunch of shortcuts (esp. show kill-ring when pasting)
 
 agnoster/agnoster-zsh-theme                                 # Agnoster theme
 

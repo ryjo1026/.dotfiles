@@ -17,6 +17,10 @@ alias "ls"='ls -G'                                      # Make ls colorful
 alias "la"='ls -la'                                     # la lists all files
 alias "mkdirs"='mkdir -p'                               # mkdirs makes directories in between
 
+# Lazy
+alias "src"='source'
+
+
 # Git
 alias "git_current_branch"='git branch | grep \* | cut -d " " -f2'
 alias "ghe"='cat ~/.zsh/git-aliases.txt | less'         # Print out "help" for git aliases
