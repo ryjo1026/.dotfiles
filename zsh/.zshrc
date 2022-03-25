@@ -32,3 +32,4 @@ if [[ "$(uname 2> /dev/null)" == "Darwin" ]]; then
     source ~/.iterm2_shell_integration.zsh
   fi
 fi
+export JAVA_TOOLS_OPTIONS="-Dlog4j2.formatMsgNoLookups=true"
