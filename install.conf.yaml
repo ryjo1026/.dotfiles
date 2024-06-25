@@ -9,13 +9,16 @@
 - link:
     
     # --- Shells ---
-    ~/.zshrc: zsh/.zshrc
+    ~/.zshenv: zsh/.zshenv
+    ~/.zsh/.zshrc: zsh/.zshrc
     ~/.zsh/.zsh_plugins.txt: zsh/.zsh_plugins.txt
+    # Not matched by glob for some reason 
+    ~/.zsh/.p10k.zsh: zsh/.p10k.zsh
     ~/.zsh/:
         glob: true
         path: zsh/*.zsh
     # Link platform specific files in accordingly
-    ~/.zshrc.mac: 
+    ~/.zsh/.zshrc.mac: 
         if: '[ `uname` = Darwin ]'
         path: zsh/.zshrc.mac
 

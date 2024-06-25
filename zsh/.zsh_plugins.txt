@@ -3,12 +3,11 @@ zsh-users/zsh-autosuggestions                               # Show autocompletio
 zsh-users/zsh-completions                                   # Add additonal completions
 marlonrichert/zsh-edit branch:main                          # Add a bunch of shortcuts (esp. show kill-ring when pasting)
 
-agnoster/agnoster-zsh-theme                                 # Agnoster theme
+romkatv/powerlevel10k                                       # Prompt
 
 rupa/z                                                      # Allows for cd shortcutting based on frequency
 paulirish/git-open                                          # Open github repos in the webrowser
 robbyrussell/oh-my-zsh path:plugins/colored-man-pages       # Color man pages
 robbyrussell/oh-my-zsh path:plugins/git                     # Useful git aliases
 robbyrussell/oh-my-zsh path:plugins/pip                     # Autocomplete for pip commands
-robbyrussell/oh-my-zsh path:plugins/docker                  # Autocomplete for docker commands
 
