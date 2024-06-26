@@ -12,8 +12,6 @@ export LDFLAGS=-L/usr/local/opt/openssl/lib
 
 # ZSH options
 setopt auto_cd                      # cd by typing directory name if it's not a command
-setopt GLOB_DOTS                    # include dotfiles in * glob
-setopt extendedglob                 # enable extended globbing
 # make cd behave like pushd (have a stack)
 setopt autopushd pushdminus pushdsilent pushdtohome cdablevars
 DIRSTACKSIZE=5

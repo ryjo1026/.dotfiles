@@ -1,2 +1,8 @@
 # No more Python 2
-alias python='python3'
+# alias python='python3'
+export PATH=/opt/homebrew/bin:~/.local/bin:$PATH
+
+
+export JAVA_HOME=`/usr/libexec/java_home -v 17.0.8`
+
+

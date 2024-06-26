@@ -21,6 +21,9 @@
     ~/.zsh/.zshrc.mac: 
         if: '[ `uname` = Darwin ]'
         path: zsh/.zshrc.mac
+    ~/.zsh/.zsh_plugins_macos.txt: 
+        if: '[ `uname` = Darwin ]'
+        path: zsh/.zsh_plugins_macos.txt
 
     # Useful fallback if ZSH is not installed 
     ~/.bash_profile: bash/.bash_profile
