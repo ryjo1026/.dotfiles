@@ -12,6 +12,6 @@ if [[ ! -f "$BREWFILE" ]]; then
   exit 0
 fi
 
-echo "Running brew bundle using $BREWFILE (profile={{ .data.profile | default "home" }})"
+echo "Running brew bundle using $BREWFILE (profile={{ .profile | default "home" }})"
 brew bundle --file "$BREWFILE"
 

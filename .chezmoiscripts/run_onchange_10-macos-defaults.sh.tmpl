@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROFILE="{{ .profile }}"
+echo "Applying macOS defaults for profile: $PROFILE"
+
+# Faster key repeat
+defaults write -g InitialKeyRepeat -int 10      # lower = faster
+defaults write -g KeyRepeat -int 2              # lower = faster
