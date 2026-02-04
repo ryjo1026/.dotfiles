@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if ! command -v brew >/dev/null 2>&1; then
+  echo "Homebrew not installed; skipping brew bundle"
+  exit 0
+fi
+
+BREWFILE="$HOME/.Brewfile"
+if [[ ! -f "$BREWFILE" ]]; then
+  echo "No Brewfile at $BREWFILE; skipping"
+  exit 0
+fi
+
+echo "Running brew bundle using $BREWFILE (profile={{ .data.profile | default "home" }})"
+brew bundle --file "$BREWFILE"
+

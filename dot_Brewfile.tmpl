@@ -1,0 +1,19 @@
+# Common taps
+tap "homebrew/cask"
+tap "homebrew/cask-fonts"
+
+cask "ghostty"
+cask "maccy"
+
+# Fonts (example)
+cask "font-fira-code"
+
+{{ if eq .data.profile "home" -}}
+# TODO
+{{ else if eq .data.profile "work" -}}
+# Work-only apps
+
+{{ end -}}
+
+
+

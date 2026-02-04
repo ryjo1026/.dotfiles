@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+KEY="$HOME/.ssh/id_ed25519"
+EMAIL="{{ .email | default "your_email@example.com" }}"
+TITLE="{{ .sshKeyTitle | default "personal-laptop" }}"
+
+mkdir -p "$HOME/.ssh"
+chmod 700 "$HOME/.ssh"
+
+if [[ ! -f "$KEY" ]]; then
+  ssh-keygen -t ed25519 -C "$EMAIL" -f "$KEY" -N ""
+  chmod 600 "$KEY"
+  chmod 644 "$KEY.pub"
+fi
+
+# Ensure ssh-agent has the key (best-effort)
+if command -v ssh-agent >/dev/null 2>&1; then
+  eval "$(ssh-agent -s)" >/dev/null 2>&1 || true
+  ssh-add "$KEY" >/dev/null 2>&1 || true
+fi
+
+echo
+echo "Public key:"
+cat "$KEY.pub"
+echo
+
