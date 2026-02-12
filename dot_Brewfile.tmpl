@@ -1,8 +1,16 @@
+brew "tmux"
 cask "ghostty"
-cask "maccy"
 cask "visual-studio-code"
 
-# Fonts (example)
+brew "nvm"
+
+cask "maccy"
+cask "rectangle"
+cask "raycast"
+
+brew "tree"
+
+# Fonts
 cask "font-fira-code"
 
 {{ if eq .profile "home" -}}
@@ -10,6 +18,7 @@ cask "font-fira-code"
 {{ else if eq .profile "work" -}}
 # Work-only apps
 cask "obsidian"
+cask "nikitabobko/tap/aerospace"
 {{ end -}}
 
 

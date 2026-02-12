@@ -1,0 +1,16 @@
+zsh-users/zsh-syntax-highlighting                           # zsh command coloring
+zsh-users/zsh-autosuggestions                               # Show autocompletion suggestion from history
+zsh-users/zsh-completions                                   # Add additonal completions
+marlonrichert/zsh-edit branch:main                          # Add a bunch of shortcuts (esp. show kill-ring when pasting)
+
+romkatv/powerlevel10k                                       # Prompt
+
+rupa/z                                                      # Allows for cd shortcutting based on frequency
+paulirish/git-open                                          # Open github repos in the webrowser
+robbyrussell/oh-my-zsh path:plugins/colored-man-pages       # Color man pages
+robbyrussell/oh-my-zsh path:plugins/git                     # Useful git aliases
+robbyrussell/oh-my-zsh path:plugins/pip                     # Autocomplete for pip commands
+
+{{- if eq .chezmoi.os "darwin" }}
+robbyrussell/oh-my-zsh path:plugins/brew
+{{- end }}

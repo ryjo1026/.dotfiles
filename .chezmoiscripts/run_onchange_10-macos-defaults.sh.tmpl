@@ -7,3 +7,18 @@ echo "Applying macOS defaults for profile: $PROFILE"
 # Faster key repeat
 defaults write -g InitialKeyRepeat -int 10      # lower = faster
 defaults write -g KeyRepeat -int 2              # lower = faster
+
+# Set Screen Saver to Aerial → Shuffle All
+defaults write com.apple.ScreenSaver moduleDict -dict \
+  moduleName "Aerial" \
+  path "/System/Library/Screen Savers/Aerial.saver" \
+  type 0
+# Bottom-left hot corner -> Start Screen Saver
+defaults write com.apple.dock wvous-bl-corner -int 5
+defaults write com.apple.dock wvous-bl-modifier -int 0
+# Bottom-right corner -> Turn off quicknotes
+defaults write com.apple.dock wvous-br-corner -int 0
+
+# Require password immediately after screen saver or sleep
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0
