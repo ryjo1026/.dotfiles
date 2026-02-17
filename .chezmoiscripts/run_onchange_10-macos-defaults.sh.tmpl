@@ -22,3 +22,13 @@ defaults write com.apple.dock wvous-br-corner -int 0
 # Require password immediately after screen saver or sleep
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
+
+# Better aerospace compatibility
+{{- if .aerospace }}
+defaults write com.apple.dock expose-group-apps -bool true
+defaults write com.apple.spaces spans-displays -bool true
+{{- end }}
+
+# Attempt to uto-apply changes, some may require a logout
+killall Dock
+killall SystemUIServer

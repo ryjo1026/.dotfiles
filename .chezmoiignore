@@ -1,0 +1,5 @@
+README.md
+
+{{- if not .aerospace }}
+.aerospace.toml
+{{- end }}
