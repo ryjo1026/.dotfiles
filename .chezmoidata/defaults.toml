@@ -1,0 +1,4 @@
+email = "your_email@example.com"
+sshKeyTitle = "default"
+profile = "default"
+aerospace = false
