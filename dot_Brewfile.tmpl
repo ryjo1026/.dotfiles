@@ -1,0 +1,29 @@
+# Dev tools
+brew "docker"
+cask "docker-desktop"
+brew "tmux"
+cask "ghostty"
+cask "visual-studio-code"
+
+brew "nvm"
+brew "pyenv"
+
+# Productivity Tools
+cask "maccy"
+cask "rectangle"
+cask "raycast"
+
+# CLI Tools
+brew "gh"
+brew "tree"
+
+# Fonts
+cask "font-fira-code"
+
+{{ if eq .profile "home" -}}
+# TODO
+{{ else if eq .profile "work" -}}
+# Work-only apps
+cask "obsidian"
+cask "nikitabobko/tap/aerospace"
+{{ end -}}
