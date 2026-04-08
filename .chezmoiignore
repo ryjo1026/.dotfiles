@@ -1,1 +1,5 @@
 README.md
+
+{{- if not .aerospaceEnabled }}
+.aerospace.toml
+{{- end }}

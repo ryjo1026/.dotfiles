@@ -24,8 +24,9 @@ defaults write com.apple.dock wvous-br-corner -int 0
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
 
-# Better aerospace compatibility
-{{- if .aerospace }}
+# Better Aerospace compatibility
+{{- if .aerospaceEnabled }}
+echo "Aerospace enabled: applying compatibility settings..."
 defaults write com.apple.dock expose-group-apps -bool true
 defaults write com.apple.spaces spans-displays -bool true
 {{- end }}

@@ -8,5 +8,5 @@ TODO
 profile = "work"
 email = "ryan@example.com"
 sshKeyTitle = "example"
-aerospace = true
+aerospaceEnabled = true
 ```
