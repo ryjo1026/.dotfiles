@@ -1,0 +1,32 @@
+{
+  "shortcuts": {
+    "bindings": {
+      "newSurface": ["ctrl+b", "c"],
+      "nextSurface": ["ctrl+b", "n"],
+      "prevSurface": ["ctrl+b", "p"],
+      "renameTab": ["ctrl+b", ","],
+      "closeTab": ["ctrl+b", "x"],
+      "toggleSidebar": ["ctrl+b", "w"],
+      "selectSurfaceByNumber": ["ctrl+b", "1"],
+
+      "splitRight": ["ctrl+b", "shift+5"],
+      "splitDown": ["ctrl+b", "shift+'"],
+      "focusLeft": ["ctrl+b", "h"],
+      "focusRight": ["ctrl+b", "l"],
+      "focusUp": ["ctrl+b", "j"],
+      "focusDown": ["ctrl+b", "k"],
+      "toggleSplitZoom": ["ctrl+b", "z"],
+
+      "renameWorkspace": ["ctrl+b", "shift+4"],
+      "goToWorkspace": ["ctrl+b", "s"],
+      "prevSidebarTab": ["ctrl+b", "shift+9"],
+      "nextSidebarTab": ["ctrl+b", "shift+0"],
+      "closeWorkspace": ["ctrl+b", "d"],
+
+      "commandPalette": ["ctrl+b", "shift+;"],
+      "toggleTerminalCopyMode": ["ctrl+b", "["],
+      "find": ["ctrl+b", "f"],
+      "showNotifications": ["ctrl+b", "i"]
+    }
+  }
+}
