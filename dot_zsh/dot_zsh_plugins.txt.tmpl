@@ -9,8 +9,8 @@ rupa/z                                                      # Allows for cd shor
 paulirish/git-open                                          # Open github repos in the webrowser
 robbyrussell/oh-my-zsh path:plugins/colored-man-pages       # Color man pages
 robbyrussell/oh-my-zsh path:plugins/git                     # Useful git aliases
-robbyrussell/oh-my-zsh path:plugins/pip                     # Autocomplete for pip commands
 
 {{- if eq .chezmoi.os "darwin" }}
 robbyrussell/oh-my-zsh path:plugins/brew
+lukechilds/zsh-nvm                                          # Lazy-load nvm to avoid ~2s startup hit
 {{- end }}
