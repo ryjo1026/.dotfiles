@@ -12,12 +12,17 @@ brew "uv"
 
 # Productivity Tools
 cask "maccy"
-cask "rectangle"
 cask "raycast"
+{{ if .aerospaceEnabled -}}
+cask "nikitabobko/tap/aerospace"
+{{ else -}}
+cask "rectangle"
+{{ end -}}
 
 # CLI Tools
 brew "gh"
 brew "tree"
+brew "lazygit"
 
 # Fonts
 cask "font-fira-code"
@@ -27,7 +32,7 @@ cask "font-fira-code"
 {{ else if eq .profile "work" -}}
 # Work-only apps
 cask "obsidian"
-cask "nikitabobko/tap/aerospace"
+cask "codex"
 
 tap "datadog-labs/pack"
 brew "datadog-labs/pack/pup"
