@@ -8,7 +8,7 @@ typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' 
 if [ $(date +'%j') != $updated_at ]; then
   compinit -i
 else
-  compinit -C -i
+  compinit -C
 fi
 zmodload -i zsh/complist
 
