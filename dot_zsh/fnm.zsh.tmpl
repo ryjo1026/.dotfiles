@@ -1,0 +1,3 @@
+{{- if eq .chezmoi.os "darwin" }}
+eval "$(fnm env --use-on-cd --shell zsh)"
+{{- end }}
