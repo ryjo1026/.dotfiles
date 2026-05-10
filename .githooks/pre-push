@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Test chezmoi templates render without errors across target machines
+# Runs automatically before `git push` when core.hooksPath is set to .githooks
+
+TEMPLATES=$(find . -name '*.tmpl' -not -path './.git/*')
+FAILURES=0
+TMPDIR=$(mktemp -d)
+trap 'rm -rf "$TMPDIR"' EXIT
+
+# Target environments:
+#   - Personal Mac (darwin/arm64)
+#   - Work Mac (darwin/arm64)
+#   - Unraid server (linux/amd64)
+declare -a COMBOS=(
+  "darwin/arm64"
+  "linux/amd64"
+)
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo " chezmoi template validation"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+for combo in "${COMBOS[@]}"; do
+  os="${combo%%/*}"
+  arch="${combo##*/}"
+
+  config="$TMPDIR/chezmoi-${os}-${arch}.toml"
+  cat > "$config" <<TOML
+[data]
+$(cat .chezmoidata/defaults.toml)
+
+[data.chezmoi]
+  os = "${os}"
+  arch = "${arch}"
+TOML
+
+  target_failures=0
+  for tmpl in $TEMPLATES; do
+    output=$(chezmoi execute-template \
+      --init \
+      --config="$config" \
+      < "$tmpl" 2>&1) || {
+        echo "  FAIL: $tmpl"
+        echo "    $output"
+        FAILURES=$((FAILURES + 1))
+        target_failures=$((target_failures + 1))
+      }
+  done
+
+  if [ "$target_failures" -eq 0 ]; then
+    echo "  ✓ ${os}/${arch}"
+  else
+    echo "  ✗ ${os}/${arch} (${target_failures} failed)"
+  fi
+done
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+if [ "$FAILURES" -gt 0 ]; then
+  echo "  Template rendering failed. Push aborted."
+  exit 1
+fi
+
+echo "  All templates valid. Pushing."

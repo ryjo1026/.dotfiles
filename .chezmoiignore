@@ -1,4 +1,5 @@
 README.md
+.githooks
 
 {{- if not .aerospaceEnabled }}
 .aerospace.toml

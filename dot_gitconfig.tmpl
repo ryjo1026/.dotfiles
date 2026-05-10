@@ -39,3 +39,5 @@
 	signingkey = {{ .gitSigningKey }}
 	email = {{ .email }}
 	name = Ryan Johnston
+[includeIf "gitdir:~/.local/share/chezmoi/"]
+	path = ~/.gitconfig-chezmoi
