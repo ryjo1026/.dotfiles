@@ -1092,12 +1092,6 @@
   # Custom icon.
   # typeset -g POWERLEVEL9K_NODENV_VISUAL_IDENTIFIER_EXPANSION='⭐'
 
-  ###########[ node_version: node.js version ]###########
-  typeset -g POWERLEVEL9K_NODE_VERSION_FOREGROUND=0
-  typeset -g POWERLEVEL9K_NODE_VERSION_BACKGROUND=5
-  # Show version only when in a directory tree containing package.json/.nvmrc/.node-version.
-  typeset -g POWERLEVEL9K_NODE_VERSION_PROJECT_ONLY=true
-
   ############[ nodeenv: node.js environment (https://github.com/ekalinin/nodeenv) ]############
   # Nodeenv color.
   typeset -g POWERLEVEL9K_NODEENV_FOREGROUND=2
@@ -1111,7 +1105,7 @@
 
   ##############################[ node_version: node.js version ]###############################
   # Node version color.
-  typeset -g POWERLEVEL9K_NODE_VERSION_FOREGROUND=7
+  typeset -g POWERLEVEL9K_NODE_VERSION_FOREGROUND=232
   typeset -g POWERLEVEL9K_NODE_VERSION_BACKGROUND=2
   # Show node version only when in a directory tree containing package.json.
   typeset -g POWERLEVEL9K_NODE_VERSION_PROJECT_ONLY=true

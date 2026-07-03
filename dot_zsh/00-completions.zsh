@@ -16,16 +16,19 @@ zmodload -i zsh/complist
 zstyle ':completion:*' completer \
   _expand \
   _complete \
-  _ignored \
-  _approximate
+  _ignored
 
 # select completions with arrow keys
-zstyle ':completion:*' menu select   
-# group results by category                                       
-zstyle ':completion:*' group-name ''                                        
+zstyle ':completion:*' menu select
+# group results by category
+zstyle ':completion:*' group-name ''
 
-# Set the maximum number of errors for approximate matching
-zstyle ':completion:*:approximate:*' max-errors 'reply=( $(( ($#PREFIX + $#SUFFIX) / 3 )) )'
+# case-insensitive matching (cd doc -> Documents/)
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
-# Enable warnings before applying approximate matches
-zstyle ':completion:*:approximate:*' warn yes
+# color the completion list to match ls
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# cache slow completers (brew, apt, pip, ...)
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
