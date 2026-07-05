@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Symlinks each managed skill in ~/.agents/skills into every agent's native
+# skills dir, next to unmanaged local skills, then prunes dangling links.
+# Re-run triggers:
+#   skills: {{ glob (joinPath .chezmoi.sourceDir "dot_agents/skills/*") | join " " }}
+#   gating: {{ include ".chezmoiignore" | sha256sum }}
+set -euo pipefail
+
+CANONICAL="$HOME/.agents/skills"
+
+# One entry per agent; extend when adopting a new agent (OpenCode, Codex, ...)
+AGENT_SKILL_DIRS=(
+  "$HOME/.claude/skills"
+)
+
+[ -d "$CANONICAL" ] || exit 0
+
+for agent_dir in "${AGENT_SKILL_DIRS[@]}"; do
+  mkdir -p "$agent_dir"
+
+  for skill in "$CANONICAL"/*/; do
+    [ -d "$skill" ] || continue
+    name=$(basename "$skill")
+    target="$agent_dir/$name"
+    if [ -L "$target" ] || [ ! -e "$target" ]; then
+      ln -sfn "$CANONICAL/$name" "$target"
+    else
+      echo "skip: $target is a local skill shadowing managed '$name'" >&2
+    fi
+  done
+
+  for link in "$agent_dir"/*; do
+    [ -L "$link" ] || continue
+    case "$(readlink "$link")" in
+      "$CANONICAL"/*) [ -e "$link" ] || rm -f "$link" ;;
+    esac
+  done
+done
