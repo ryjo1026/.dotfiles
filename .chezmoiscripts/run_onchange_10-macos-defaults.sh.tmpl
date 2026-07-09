@@ -24,6 +24,9 @@ defaults write com.apple.dock wvous-br-corner -int 0
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
 
+# Make screenshot preview stay around longer for easy drag and drop (number of seconds)
+defaults write com.apple.screencaptureui "thumbnailExpiration" -float 30
+
 # Better Aerospace compatibility
 {{- if .aerospaceEnabled }}
 echo "Aerospace enabled: applying compatibility settings..."
