@@ -1,29 +1,52 @@
 #!/usr/bin/env bash
-# Symlinks each managed skill in ~/.agents/skills into every agent's native
-# skills dir, next to unmanaged local skills, then prunes dangling links.
+# Skill routing, two passes:
+#   1) merge external skill sources (~/.agents/sources/<name>, cloned via
+#      .chezmoiexternal.toml) into ~/.agents/skills as symlinks — most agents
+#      (Codex, Cursor, Gemini CLI, OpenCode, Amp) read that dir natively
+#   2) fan ~/.agents/skills out into agent dirs that don't (Claude Code)
+# Collision precedence: real dirs in ~/.agents/skills (trials, `npx skills`
+# installs) > sources in SOURCES order.
+# Never touches ~/.agents/.skill-lock.json — owned by the `npx skills` CLI,
+# which wipes lockfile versions it doesn't recognize.
 # Re-run triggers:
-#   skills: {{ glob (joinPath .chezmoi.sourceDir "dot_agents/skills/*") | join " " }}
 #   gating: {{ include ".chezmoiignore" | sha256sum }}
+#   sources: {{ include ".chezmoiexternal.toml.tmpl" | sha256sum }}
 set -euo pipefail
 
-CANONICAL="$HOME/.agents/skills"
+MERGED="$HOME/.agents/skills"
+SOURCES_ROOT="$HOME/.agents/sources"
+SOURCES=(private team public)              # precedence order: first wins
+AGENT_SKILL_DIRS=("$HOME/.claude/skills")  # agents without native ~/.agents/skills support
 
-# One entry per agent; extend when adopting a new agent (OpenCode, Codex, ...)
-AGENT_SKILL_DIRS=(
-  "$HOME/.claude/skills"
-)
+mkdir -p "$MERGED"
 
-[ -d "$CANONICAL" ] || exit 0
+# -- pass 1: rebuild source links (first-wins); real dirs are never touched
+for entry in "$MERGED"/*; do
+  [ -L "$entry" ] || continue
+  case "$(readlink "$entry")" in
+    "$SOURCES_ROOT"/*) rm -f "$entry" ;;
+  esac
+done
 
+for src in "${SOURCES[@]}"; do
+  for skill in "$SOURCES_ROOT/$src"/skills/*/ "$SOURCES_ROOT/$src"/*/; do
+    [ -f "${skill}SKILL.md" ] || continue
+    name=$(basename "$skill")
+    target="$MERGED/$name"
+    [ -e "$target" ] || ln -s "${skill%/}" "$target"
+  done
+done
+
+# -- pass 2: fan out into non-native agents, then prune dangling links
 for agent_dir in "${AGENT_SKILL_DIRS[@]}"; do
   mkdir -p "$agent_dir"
 
-  for skill in "$CANONICAL"/*/; do
-    [ -d "$skill" ] || continue
-    name=$(basename "$skill")
+  for entry in "$MERGED"/*; do
+    [ -d "$entry" ] || continue  # follows symlinks; skips dangling ones
+    name=$(basename "$entry")
     target="$agent_dir/$name"
     if [ -L "$target" ] || [ ! -e "$target" ]; then
-      ln -sfn "$CANONICAL/$name" "$target"
+      ln -sfn "$MERGED/$name" "$target"
     else
       echo "skip: $target is a local skill shadowing managed '$name'" >&2
     fi
@@ -32,7 +55,7 @@ for agent_dir in "${AGENT_SKILL_DIRS[@]}"; do
   for link in "$agent_dir"/*; do
     [ -L "$link" ] || continue
     case "$(readlink "$link")" in
-      "$CANONICAL"/*) [ -e "$link" ] || rm -f "$link" ;;
+      "$MERGED"/*) [ -e "$link" ] || rm -f "$link" ;;
     esac
   done
 done

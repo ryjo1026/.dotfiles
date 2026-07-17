@@ -1,0 +1,25 @@
+# External skill sources — cloned into ~/.agents/sources/<name>, merged into
+# ~/.agents/skills by run_onchange_after_agent-skills.sh (SOURCES order there
+# decides name collisions; add new sources to that array too).
+#
+# Trust note: write access to a subscribed repo is code-execution for your
+# agents. Team/third-party sources should be branch-protected or pinned;
+# refreshPeriod controls how often chezmoi pulls.
+#
+[".agents/sources/public"]
+    type = "git-repo"
+    url = "git@personal.github.com:ryjo1026/skills.git"
+    refreshPeriod = "168h"
+
+# The private and team sources are work-hosted, so both gate on the work profile.
+{{ if eq .profile "work" -}}
+[".agents/sources/private"]
+    type = "git-repo"
+    url = "git@github.com:ryanjohnston-abridge/skills-private.git"
+    refreshPeriod = "168h"
+
+[".agents/sources/team"]
+    type = "git-repo"
+    url = "git@github.com:abridgeai/ryan-skills.git"
+    refreshPeriod = "168h"
+{{- end }}

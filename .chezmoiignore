@@ -6,8 +6,8 @@ README.md
 {{- end }}
 
 {{- if ne .chezmoi.os "darwin" }}
-# Skills deploy to Macs by default. Opt a skill into the server with:
-#   !.agents/skills/<name>
-#   !.agents/skills/<name>/**
-.agents/skills/**
+# Skill sources pull on Macs by default. Opt one into the server with:
+#   !.agents/sources/<name>
+#   !.agents/sources/<name>/**
+.agents/sources/**
 {{- end }}
