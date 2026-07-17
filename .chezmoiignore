@@ -1,4 +1,7 @@
 README.md
+AGENTS.md
+CLAUDE.md
+agents/**
 .githooks
 
 {{- if not .aerospaceEnabled }}

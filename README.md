@@ -16,6 +16,7 @@ Personal dotfiles managed with [chezmoi](https://www.chezmoi.io/). Targets macOS
 | `.chezmoiexternal.toml.tmpl` | Skill-source repos ([public](https://github.com/ryjo1026/skills), private, team), cloned per machine profile |
 | `.chezmoiscripts/` | Bootstrap scripts: SSH key, macOS defaults, `brew bundle` |
 | `.chezmoidata/defaults.toml` | Default values for template variables |
+| `AGENTS.md`, `agents/` | Repo-only agent context (`CLAUDE.md` symlinks to `AGENTS.md`) |
 | `.githooks/pre-push` | Renders all templates against each target OS/arch before push |
 
 ## Install
