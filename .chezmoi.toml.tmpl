@@ -1,0 +1,12 @@
+{{- $profile := promptStringOnce . "profile" "Machine profile (work/personal)" -}}
+{{- $email := promptStringOnce . "email" "Email address" -}}
+{{- $sshKeyTitle := promptStringOnce . "sshKeyTitle" "SSH key title" -}}
+{{- $aerospaceEnabled := promptBoolOnce . "aerospaceEnabled" "Enable AeroSpace window manager" -}}
+{{- $gitSigningKey := promptStringOnce . "gitSigningKey" "Git signing key path" -}}
+
+[data]
+    profile = {{ $profile | quote }}
+    email = {{ $email | quote }}
+    sshKeyTitle = {{ $sshKeyTitle | quote }}
+    aerospaceEnabled = {{ $aerospaceEnabled }}
+    gitSigningKey = {{ $gitSigningKey | quote }}
