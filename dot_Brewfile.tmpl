@@ -4,8 +4,8 @@ cask "docker-desktop"
 brew "tmux"
 cask "ghostty"
 cask "cmux"
-cask "opensuperwhisper"
 cask "visual-studio-code"
+brew "neovim"
 
 brew "fnm"
 brew "pyenv"
@@ -33,10 +33,12 @@ cask "font-fira-code"
 {{ if eq .profile "personal" -}}
 # Work cc not managed by brew to stay on bleeding edge
 cask "claude-code@latest"
+cask "opensuperwhisper"
 {{ else if eq .profile "work" -}}
 # Work-only apps
 cask "obsidian"
 cask "codex"
+brew "teleport"
 
 tap "datadog-labs/pack"
 brew "datadog-labs/pack/pup"

@@ -15,4 +15,14 @@ function ls-tap() {
   ls $TAP_PREFIX/$1/Formula/*.rb 2>/dev/null || ls $TAP_PREFIX/$1/*.rb 2>/dev/null |
     xargs -I{} basename {} .rb
 }
+
+# Fork the current Claude Code session into a new cmux split (default: right).
+# Run from inside a Claude Code session via `!claude-fork [right|down|up|left]`.
+function claude-fork() {
+  local ref
+  ref=$(cmux new-split "${1:-right}" --focus true --json |
+    sed -n 's/.*"surface_ref" *: *"\([^"]*\)".*/\1/p')
+  [ -n "$ref" ] || { echo "claude-fork: no split created" >&2; return 1; }
+  cmux send --surface "$ref" "claude --resume $CLAUDE_CODE_SESSION_ID --fork-session\r"
+}
 {{- end }}
