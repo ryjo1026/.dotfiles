@@ -6,6 +6,7 @@ This is a **chezmoi source directory** (public repo). Files here render/deploy t
 - Consult https://www.chezmoi.io/ docs before relying on general chezmoi knowledge — key pages: [concepts](https://www.chezmoi.io/reference/concepts/), [source state attributes](https://www.chezmoi.io/reference/source-state-attributes/), [templates](https://www.chezmoi.io/reference/templates/), [special files](https://www.chezmoi.io/reference/special-files-and-directories/), [commands](https://www.chezmoi.io/reference/commands/).
 - Root files without `dot_` prefix deploy to `$HOME` too — repo-only files must be listed in `.chezmoiignore`.
 - Every `*.tmpl` must render for both `darwin/arm64` and `linux/amd64` (pre-push hook enforces this).
+- Per-tool shell config is its own self-guarding module in `dot_zsh/` (see `pyenv.zsh`, `mise.zsh`), auto-sourced by `.zshrc`. Guard on the tool's presence (`command -v` or `[[ -d ... ]]`) so it no-ops where absent — don't append tool setup to `dot_zshrc.tmpl`/`dot_zshrc.mac.tmpl`.
 
 Detailed agent docs live in `agents/`:
 
