@@ -3,6 +3,7 @@ brew "docker"
 cask "docker-desktop"
 brew "tmux"
 cask "ghostty"
+cask "cmux"
 cask "opensuperwhisper"
 cask "visual-studio-code"
 
@@ -30,7 +31,8 @@ brew "lazygit"
 cask "font-fira-code"
 
 {{ if eq .profile "personal" -}}
-# TODO
+# Work cc not managed by brew to stay on bleeding edge
+cask "claude-code@latest"
 {{ else if eq .profile "work" -}}
 # Work-only apps
 cask "obsidian"
