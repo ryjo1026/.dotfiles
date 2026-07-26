@@ -2,6 +2,7 @@ README.md
 AGENTS.md
 CLAUDE.md
 agents/**
+docs
 .githooks
 
 {{- if not .aerospaceEnabled }}
