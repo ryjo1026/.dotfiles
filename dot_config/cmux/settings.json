@@ -1,4 +1,7 @@
 {
+  "app": {
+    "appearance": "dark"
+  },
   "shortcuts": {
     "bindings": {
       "newSurface": ["ctrl+b", "c"],
