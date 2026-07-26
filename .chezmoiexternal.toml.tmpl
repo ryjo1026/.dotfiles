@@ -6,18 +6,24 @@
 # agents. Team/third-party sources should be branch-protected or pinned;
 # refreshPeriod controls how often chezmoi pulls.
 #
+# Personal repos are reached through the `personal.github.com` SSH alias on work
+# machines (where plain `github.com` is the work identity) and through plain
+# `github.com` everywhere else.
+{{- $personal := eq .profile "work" | ternary "personal.github.com" "github.com" }}
+
 [".agents/sources/public"]
     type = "git-repo"
-    url = "git@personal.github.com:ryjo1026/skills.git"
+    url = "git@{{ $personal }}:ryjo1026/skills.git"
     refreshPeriod = "168h"
 
-# The private and team sources are work-hosted, so both gate on the work profile.
-{{ if eq .profile "work" -}}
+# Personal-account private skills: only Ryan, but every machine.
 [".agents/sources/private"]
     type = "git-repo"
-    url = "git@github.com:ryanjohnston-abridge/skills-private.git"
+    url = "git@{{ $personal }}:ryjo1026/skills-private.git"
     refreshPeriod = "168h"
 
+# The team source is work-hosted, so it gates on the work profile.
+{{ if eq .profile "work" -}}
 [".agents/sources/team"]
     type = "git-repo"
     url = "git@github.com:abridgeai/ryan-skills.git"
