@@ -1,6 +1,25 @@
 {
+  "$schema": "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux.schema.json",
+  "schemaVersion": 1,
   "app": {
-    "appearance": "dark"
+    "appearance": "dark",
+    "forkConversationDefaultDestination": "newTab"
+  },
+{{- if eq .profile "work" }}
+  "terminal": {
+    "agentHibernation": {
+      "enabled": true
+    }
+  },
+{{- end }}
+  "actions": {
+    "lazygit": {
+      "type": "command",
+      "title": "Lazygit",
+      "command": "exec cmux-split-run right lazygit",
+      "target": "newTabInCurrentPane",
+      "shortcut": ["ctrl+b", "g"]
+    }
   },
   "shortcuts": {
     "bindings": {
@@ -26,7 +45,7 @@
       "nextSidebarTab": ["ctrl+b", "shift+0"],
       "closeWorkspace": ["ctrl+b", "d"],
 
-      "commandPalette": ["ctrl+b", "shift+;"],
+      "commandPalette": "cmd+shift+p",
       "toggleTerminalCopyMode": ["ctrl+b", "["],
       "find": ["ctrl+b", "f"],
       "showNotifications": ["ctrl+b", "i"]

@@ -1,0 +1,2 @@
+# cmux reads this legacy path only as a fallback for keys missing from cmux.json; leaving it behind lets stale keys win silently.
+.config/cmux/settings.json
