@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Open a cmux split and run a command in it: cmux-split-run [right|down|up|left] <command...>
+# Reuses an existing neighbouring pane in that direction rather than stacking splits.
+set -euo pipefail
+
+dir=right
+case "${1:-}" in right|down|up|left) dir=$1; shift ;; esac
+[ $# -gt 0 ] || { echo "usage: cmux-split-run [right|down|up|left] <command...>" >&2; exit 2; }
+
+cmd_name=$(basename "$1")
+
+# Nearest pane whose frame lies in $dir of the focused one and overlaps it on the other axis.
+neighbour=$(cmux list-panes --json | jq -r --arg dir "$dir" '
+  .panes as $panes
+  | ($panes | map(select(.focused)) | .[0].pixel_frame) as $f
+  | if $f == null then empty else
+      $panes
+      | map(select(.focused | not))
+      | map(. + { frame: .pixel_frame })
+      | map(select(
+          if   $dir == "right" then .frame.x > $f.x and .frame.y < ($f.y + $f.height) and ($f.y < .frame.y + .frame.height)
+          elif $dir == "left"  then .frame.x < $f.x and .frame.y < ($f.y + $f.height) and ($f.y < .frame.y + .frame.height)
+          elif $dir == "down"  then .frame.y > $f.y and .frame.x < ($f.x + $f.width)  and ($f.x < .frame.x + .frame.width)
+          else                      .frame.y < $f.y and .frame.x < ($f.x + $f.width)  and ($f.x < .frame.x + .frame.width)
+          end))
+      | sort_by(if $dir == "right" or $dir == "left" then (.frame.x - $f.x | fabs) else (.frame.y - $f.y | fabs) end)
+      | .[0].ref // empty
+    end')
+
+if [ -n "$neighbour" ]; then
+  running=$(cmux list-pane-surfaces --pane "$neighbour" --json |
+    jq -r --arg title "$cmd_name" '.surfaces | map(select(.title == $title)) | .[0].ref // empty')
+  if [ -n "$running" ]; then
+    exec cmux focus-panel --panel "$running"
+  fi
+  ref=$(cmux new-surface --pane "$neighbour" --focus true --json |
+    jq -r '.surface_ref // empty')
+  [ -n "$ref" ] || { echo "cmux-split-run: no surface created in $neighbour" >&2; exit 1; }
+else
+  ref=$(cmux new-split "$dir" --focus true --json |
+    jq -r '.surface_ref // empty')
+  [ -n "$ref" ] || { echo "cmux-split-run: no split created" >&2; exit 1; }
+fi
+
+cmux send --surface "$ref" "$*\r"
