@@ -15,7 +15,7 @@ This repo configures fast-evolving tools whose flags, schemas, and capabilities 
 | --- | --- |
 | chezmoi | https://www.chezmoi.io/ — [concepts](https://www.chezmoi.io/reference/concepts/), [source state attributes](https://www.chezmoi.io/reference/source-state-attributes/), [templates](https://www.chezmoi.io/reference/templates/), [special files](https://www.chezmoi.io/reference/special-files-and-directories/), [commands](https://www.chezmoi.io/reference/commands/) |
 | Homebrew | https://docs.brew.sh/ — [Brewfile](https://docs.brew.sh/Brew-Bundle-and-Brewfile), [manpage](https://docs.brew.sh/Manpage) |
-| cmux | https://cmux.com/docs — also offline via `cmux docs [settings\|shortcuts\|api\|dock\|agents\|sidebars]` |
+| cmux | its own [agent skills](https://cmux.com/docs/skills) first — the `cmux*` skills installed under `~/.agents/skills` are richer and more current than the web docs; then `cmux docs [settings\|shortcuts\|api\|browser\|agents\|dock\|sidebars]` offline, then https://cmux.com/docs |
 | Ghostty | https://ghostty.org/docs |
 | AeroSpace | https://nikitabobko.github.io/AeroSpace/guide |
 | mise | https://mise.jdx.dev/ |
@@ -24,6 +24,14 @@ This repo configures fast-evolving tools whose flags, schemas, and capabilities 
 
 Any tool not listed: find its official docs and add a row here.
 
+## cmux settings: override the skills' write path
+
+cmux's own skills (`cmux-config`, `cmux-sidebar-builder`) tell you to edit `~/.config/cmux/cmux.json` and to keep a timestamped `.bak` beside it. Both are wrong here: that file is rendered from `dot_config/cmux/cmux.json.tmpl`, so a direct edit dies at the next `chezmoi apply`, and git history is the backup.
+
+- Edit the template, run `chezmoi apply`, then `cmux reload-config` — it reloads cmux and Ghostty config in place, with no restart.
+- The template carries Go conditionals and is not valid JSON. Point `cmux config validate` and the skills' `scripts/cmux-settings` helper at the rendered `~/.config/cmux/cmux.json` after apply, never at the template.
+- Terminal rendering (font, cursor, theme, opacity) is Ghostty's, not cmux's: `dot_config/ghostty/config` here.
+- Anything else cmux writes under `~/.config/cmux/` belongs here as `dot_config/cmux/<name>` — including a `cmux-sidebar-builder` sidebar, which lands in `~/.config/cmux/sidebars/<name>.swift`.
 ## The Brewfile is install-only: audit before trusting it
 
 `brew bundle` never uninstalls, so a package installed by hand keeps working here and is silently missing from the next machine. `dot_Brewfile.tmpl` is therefore not a record of what is installed — only of what is guaranteed.

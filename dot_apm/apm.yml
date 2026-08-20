@@ -1,0 +1,22 @@
+name: ryan
+version: 1.0.0
+description: Third-party agent skills, installed by apm on chezmoi apply.
+author: Ryan Johnston
+
+# `apm install <pkg>` appends to the deployed copy of this file, which the next
+# `chezmoi apply` overwrites. Add dependencies here instead.
+#
+# agent-skills is the ~/.agents/skills target. Without it apm auto-detects
+# ~/.claude/skills too and its real dirs shadow the fan-out script's links.
+targets:
+  - agent-skills
+
+dependencies:
+  apm:
+    - manaflow-ai/cmux-skills
+    - github/gh-stack
+    - AminBlg/SimpleEnglish
+  mcp: []
+
+includes: auto
+scripts: {}

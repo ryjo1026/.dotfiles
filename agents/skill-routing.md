@@ -28,6 +28,17 @@ The test is the *subject*, not the audience. A generally useful skill that happe
 - Adding or removing a skill dir changes the script's re-run trigger, so the link appears on the next apply.
 - These skills ship with the repo, so a fresh clone gets them before any source repo has been cloned. Keep them free of anything private — this repo is public.
 
+## Third-party skills: dot_apm/apm.yml
+
+Skills I did not write are declared in `dot_apm/apm.yml` and installed by [APM](https://microsoft.github.io/apm/), which `.chezmoiscripts/run_onchange_20-agent-packages.sh.tmpl` runs on apply. Add a dependency, run `chezmoi apply`. The CLI itself comes from the Brewfile (`brew "microsoft/apm/apm"`).
+
+- Dependencies are `owner/repo`, optionally `#ref`; a monorepo subdirectory (`owner/repo/skills/<name>`) also resolves. Prefer a skills-only repo: `manaflow-ai/cmux-skills` installs in seconds where the cmux monorepo did not finish.
+- **Removal is why APM and not `npx skills`.** Dropping a dependency and re-applying deletes its deployed files, and `apm prune` drops the cached package. The `skills` CLI only ever adds, so a removed entry stayed installed forever.
+- `targets: [agent-skills]` pins deployment to `~/.agents/skills`. Without it APM auto-detects `~/.claude/skills` too and writes real dirs there, which shadow the fan-out script's links.
+- `apm install <pkg>` appends to the *deployed* `~/.apm/apm.yml`, which the next apply overwrites. Add dependencies to the source file instead.
+- `~/.apm/apm.lock.yaml` pins each dependency's resolved commit but is unmanaged, so machines drift. `apm update` refreshes; a `#tag` or `#sha` in the manifest pins for real.
+- Upstream guidance that conflicts with how this repo works is corrected by an override in `AGENTS.md`, not by narrowing where the skill installs — the cmux config skills' write path is the worked example.
+
 ## Mechanics
 
 - External sources are cloned to `~/.agents/sources/<name>` via `.chezmoiexternal.toml.tmpl`; adding a source also requires adding its path to `SOURCE_ROOTS` in `.chezmoiscripts/run_onchange_after_agent-skills.sh.tmpl` (array order = collision precedence, first wins).

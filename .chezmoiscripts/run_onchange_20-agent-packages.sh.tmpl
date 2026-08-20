@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Install the third-party skills declared in ~/.apm/apm.yml, deployed from
+# dot_apm/apm.yml. `install` also deletes the files of a dependency dropped from
+# the manifest; `prune` drops its cached package.
+# manifest: {{ include "dot_apm/apm.yml" | sha256sum }}
+set -euo pipefail
+
+if ! command -v apm >/dev/null 2>&1; then
+  echo "agent-packages: apm not installed, skipping" >&2
+  exit 0
+fi
+
+apm install --global
+
+# prune has no --global; it reads the apm.yml of whatever dir it runs in.
+cd "$HOME/.apm" && apm prune

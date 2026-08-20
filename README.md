@@ -137,7 +137,8 @@ fans that directory out to agents that don't read it natively (currently Claude 
 | Public | [`ryjo1026/skills`](https://github.com/ryjo1026/skills) | all |
 | Private | `ryjo1026/skills-private` | all |
 | Team | `abridgeai/ryan-skills` | work profile only |
-| Trial | real dirs in `~/.agents/skills/`, by hand or [`npx skills add`](https://github.com/vercel-labs/skills) | wherever you put them; never touched by chezmoi |
+| Third-party | `dot_apm/apm.yml`, installed by [APM](https://microsoft.github.io/apm/) | all; skipped where `apm` is absent |
+| Trial | real dirs in `~/.agents/skills/`, by hand | wherever you put them; never touched by chezmoi |
 
 Skills are split by audience because this repo is public — see
 [`agents/skill-routing.md`](agents/skill-routing.md) for how to pick a layer.
@@ -162,8 +163,8 @@ one in with `!.agents/sources/<name>` plus `!.agents/sources/<name>/**`).
 
 - Write access to a subscribed source repo is code execution for your agents.
   Branch-protect team sources; treat third-party sources like dependencies.
-- Never hand-edit `~/.agents/.skill-lock.json` — it belongs to the `npx skills` CLI, which
-  wipes formats it doesn't recognize.
+- `apm install <pkg>` appends to the deployed `~/.apm/apm.yml`, which the next apply
+  overwrites — declare third-party skills in `dot_apm/apm.yml` instead.
 - The symlinks are script state, not chezmoi state — `chezmoi managed` won't list them.
 - Gating a source off a machine doesn't delete already-cloned files (standard chezmoi
   ignore semantics); remove them by hand.

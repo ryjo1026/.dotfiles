@@ -5,6 +5,10 @@ set -euo pipefail
 # Runs automatically before `git push` when core.hooksPath is set to .githooks
 
 TEMPLATES=$(find . -name '*.tmpl' -not -path './.git/*')
+# execute-template resolves `include` and `glob` against the configured source
+# dir, not the cwd, so a worktree would otherwise validate against the main
+# checkout's files.
+SOURCE_DIR=$(git rev-parse --show-toplevel)
 FAILURES=0
 TMPDIR=$(mktemp -d)
 trap 'rm -rf "$TMPDIR"' EXIT
@@ -38,9 +42,17 @@ TOML
 
   target_failures=0
   for tmpl in $TEMPLATES; do
+    # --init supplies promptStringOnce for the config template, but hides
+    # .chezmoidata from every other template, which apply does not.
+    init_flag=""
+    if [ "$tmpl" = "./.chezmoi.toml.tmpl" ]; then
+      init_flag="--init"
+    fi
+
     output=$(chezmoi execute-template \
-      --init \
+      $init_flag \
       --config="$config" \
+      --source="$SOURCE_DIR" \
       < "$tmpl" 2>&1) || {
         echo "  FAIL: $tmpl"
         echo "    $output"
