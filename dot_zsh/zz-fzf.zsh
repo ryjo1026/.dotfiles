@@ -1,0 +1,4 @@
+# zz- prefix: must source after keybindings.zsh, whose `^I` binding fzf captures as its plain-TAB fallback.
+if command -v fzf &>/dev/null; then
+  source <(fzf --zsh)
+fi

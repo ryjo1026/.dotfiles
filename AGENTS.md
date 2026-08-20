@@ -21,6 +21,7 @@ This repo configures fast-evolving tools whose flags, schemas, and capabilities 
 | mise | https://mise.jdx.dev/ |
 | antidote | https://getantidote.github.io/ |
 | fnm | https://github.com/Schniz/fnm |
+| fzf | https://junegunn.github.io/fzf/ — [shell integration](https://github.com/junegunn/fzf#setting-up-shell-integration) |
 
 Any tool not listed: find its official docs and add a row here.
 
