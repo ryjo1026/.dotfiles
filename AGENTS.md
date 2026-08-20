@@ -14,6 +14,7 @@ This repo configures fast-evolving tools whose flags, schemas, and capabilities 
 | Tool | Docs |
 | --- | --- |
 | chezmoi | https://www.chezmoi.io/ — [concepts](https://www.chezmoi.io/reference/concepts/), [source state attributes](https://www.chezmoi.io/reference/source-state-attributes/), [templates](https://www.chezmoi.io/reference/templates/), [special files](https://www.chezmoi.io/reference/special-files-and-directories/), [commands](https://www.chezmoi.io/reference/commands/) |
+| Homebrew | https://docs.brew.sh/ — [Brewfile](https://docs.brew.sh/Brew-Bundle-and-Brewfile), [manpage](https://docs.brew.sh/Manpage) |
 | cmux | https://cmux.com/docs — also offline via `cmux docs [settings\|shortcuts\|api\|dock\|agents\|sidebars]` |
 | Ghostty | https://ghostty.org/docs |
 | AeroSpace | https://nikitabobko.github.io/AeroSpace/guide |
@@ -23,8 +24,16 @@ This repo configures fast-evolving tools whose flags, schemas, and capabilities 
 
 Any tool not listed: find its official docs and add a row here.
 
+## The Brewfile is install-only: audit before trusting it
+
+`brew bundle` never uninstalls, so a package installed by hand keeps working here and is silently missing from the next machine. `dot_Brewfile.tmpl` is therefore not a record of what is installed — only of what is guaranteed.
+
+- The `auditing-brewfile` skill carries the audit and the triage procedure; its `scripts/brew-audit` lists packages installed on purpose but declared nowhere, plus the reverse drift, and exits non-zero when anything needs a decision.
+- There is no ignore list, so a candidate you decline is reported again next run.
+- **Never run `brew bundle cleanup --force`** to resolve the audit — it uninstalls the entire list rather than codifying it.
+
 Detailed agent docs live in `agents/`:
 
-- **Before creating, moving, or removing any skill (`SKILL.md`), read [`agents/skill-routing.md`](agents/skill-routing.md)** — it defines the layered routing system (public / private / team / trial) and where a new skill must live based on its audience. Never drop skills directly into `~/.claude/skills/`.
+- **Before creating, moving, or removing any skill (`SKILL.md`), read [`agents/skill-routing.md`](agents/skill-routing.md)** — it defines the layered routing system (repo-local / public / private / team / trial) and where a new skill must live based on its subject and audience. Skills about *this repo's* mechanics live in `skills/` here; everything else lives in a source repo. Never drop skills directly into `~/.claude/skills/`.
 
 `CLAUDE.md` is a symlink to this file — edit here only.

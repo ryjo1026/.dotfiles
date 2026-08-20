@@ -2,6 +2,7 @@ README.md
 AGENTS.md
 CLAUDE.md
 agents/**
+skills/**
 docs
 .githooks
 

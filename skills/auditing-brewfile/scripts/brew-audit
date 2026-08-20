@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+# Report which installed Homebrew packages dot_Brewfile.tmpl does not declare,
+# so hand-installed keepers can be promoted into it.
+set -euo pipefail
+
+script_dir=$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+repo=$(cd -P "$script_dir/../../.." && pwd)
+template="$repo/dot_Brewfile.tmpl"
+brewfile="$HOME/.Brewfile"
+
+if ! command -v brew >/dev/null 2>&1; then
+  echo "brew-audit: Homebrew not installed; nothing to audit" >&2
+  exit 0
+fi
+for f in "$template" "$brewfile"; do
+  [ -f "$f" ] || { echo "brew-audit: missing $f" >&2; exit 2; }
+done
+
+export HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_ENV_HINTS=1
+
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+cd "$tmp"
+
+# The rendered Brewfile and its template parse identically; only the Go
+# conditionals differ, and those carry no package names. Tap prefixes are
+# stripped because brew reports them inconsistently across commands.
+names_in() { grep -oE "^[[:space:]]*$2 \"[^\"]+\"" "$1" | sed 's/.*"\(.*\)"/\1/; s|.*/||' | sort -u; }
+
+# `leaves -r` is the intentional-install population: it drops anything present
+# only as a dependency, which keeps autoremovable strays out of PROMOTE.
+brew leaves --installed-on-request | sed 's|.*/||' | sort -u > req.formula
+brew list --cask | sort -u > req.cask
+# A declared formula that something else now depends on is absent from `leaves`,
+# so the not-installed check needs the full list or it cries wolf.
+brew list --formula | sed 's|.*/||' | sort -u > all.formula
+cp req.cask all.cask
+
+for k in formula cask; do
+  case $k in formula) kw=brew ;; cask) kw=cask ;; esac
+  names_in "$template" "$kw" > "decl.$k"
+  names_in "$brewfile" "$kw" > "active.$k"
+  comm -23 "req.$k" "decl.$k" > "promote.$k"
+  comm -12 "req.$k" "decl.$k" | comm -23 - "active.$k" > "offbranch.$k"
+  comm -23 "active.$k" "all.$k" > "missing.$k"
+done
+
+bold="" dim="" reset=""
+if [ -t 1 ]; then bold=$(tput bold) dim=$(tput dim) reset=$(tput sgr0); fi
+
+count() { wc -l < "$1" | tr -d ' '; }
+total() { echo $(( $(count "$1.formula") + $(count "$1.cask") )); }
+
+section() {
+  local key=$1 title=$2 note=$3 n
+  n=$(total "$key")
+  [ "$n" -gt 0 ] || return 0
+  printf '%s%s (%d)%s\n  %s%s%s\n' "$bold" "$title" "$n" "$reset" "$dim" "$note" "$reset"
+  for k in formula cask; do
+    [ -s "$key.$k" ] || continue
+    while read -r name; do
+      printf '  %-24s %s\n' "$name" "$(brew desc "--$k" "$name" 2>/dev/null | sed "s/^$name: //" || true)"
+    done < "$key.$k"
+  done
+  echo
+}
+
+section promote   "PROMOTE?"         "installed on purpose, declared nowhere in dot_Brewfile.tmpl"
+section offbranch "OFF-BRANCH"       "declared only under a profile branch this machine does not render"
+section missing   "DECLARED, ABSENT" "in this machine's Brewfile but not installed"
+
+drift=$(( $(total promote) + $(total offbranch) + $(total missing) ))
+if [ "$drift" -eq 0 ]; then
+  echo "brew-audit: no drift; every intentional install is declared"
+  exit 0
+fi
+printf '%s%d item(s) need a decision.%s Promote into %s,\n' "$bold" "$drift" "$reset" "${template/#$HOME/~}"
+printf 'or leave it and it will be reported again. Never use `brew bundle cleanup --force`.\n'
+exit 1

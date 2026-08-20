@@ -1,21 +1,31 @@
 #!/usr/bin/env bash
 # Skill routing, two passes:
-#   1) merge external skill sources (~/.agents/sources/<name>, cloned via
-#      .chezmoiexternal.toml) into ~/.agents/skills as symlinks — most agents
-#      (Codex, Cursor, Gemini CLI, OpenCode, Amp) read that dir natively
+#   1) merge skill sources into ~/.agents/skills as symlinks — most agents
+#      (Codex, Cursor, Gemini CLI, OpenCode, Amp) read that dir natively.
+#      Sources are this repo's own skills/ plus the external repos cloned to
+#      ~/.agents/sources/<name> via .chezmoiexternal.toml.
 #   2) fan ~/.agents/skills out into agent dirs that don't (Claude Code)
 # Collision precedence: real dirs in ~/.agents/skills (trials, `npx skills`
-# installs) > sources in SOURCES order.
+# installs) > sources in SOURCE_ROOTS order.
 # Never touches ~/.agents/.skill-lock.json — owned by the `npx skills` CLI,
 # which wipes lockfile versions it doesn't recognize.
 # Re-run triggers:
 #   gating: {{ include ".chezmoiignore" | sha256sum }}
 #   sources: {{ include ".chezmoiexternal.toml.tmpl" | sha256sum }}
+#   repo skills: {{ range (glob (joinPath .chezmoi.sourceDir "skills" "*" "SKILL.md")) }}{{ base (dir .) }} {{ end }}
 set -euo pipefail
 
 MERGED="$HOME/.agents/skills"
 SOURCES_ROOT="$HOME/.agents/sources"
-SOURCES=(private team public)              # precedence order: first wins
+# Precedence order, first wins. This repo's own skills/ lead and are linked
+# straight out of the chezmoi source dir, so editing one is live without an
+# apply and no shared source can shadow a skill about this repo's mechanics.
+SOURCE_ROOTS=(
+  "{{ .chezmoi.sourceDir }}/skills"
+  "$SOURCES_ROOT/private"
+  "$SOURCES_ROOT/team"
+  "$SOURCES_ROOT/public"
+)
 AGENT_SKILL_DIRS=("$HOME/.claude/skills")  # agents without native ~/.agents/skills support
 
 mkdir -p "$MERGED"
@@ -23,13 +33,14 @@ mkdir -p "$MERGED"
 # -- pass 1: rebuild source links (first-wins); real dirs are never touched
 for entry in "$MERGED"/*; do
   [ -L "$entry" ] || continue
-  case "$(readlink "$entry")" in
-    "$SOURCES_ROOT"/*) rm -f "$entry" ;;
-  esac
+  target=$(readlink "$entry")
+  for root in "${SOURCE_ROOTS[@]}"; do
+    case "$target" in "$root"/*) rm -f "$entry"; break ;; esac
+  done
 done
 
-for src in "${SOURCES[@]}"; do
-  for skill in "$SOURCES_ROOT/$src"/skills/*/ "$SOURCES_ROOT/$src"/*/; do
+for root in "${SOURCE_ROOTS[@]}"; do
+  for skill in "$root"/skills/*/ "$root"/*/; do
     [ -f "${skill}SKILL.md" ] || continue
     name=$(basename "$skill")
     target="$MERGED/$name"
