@@ -151,6 +151,21 @@ skills are skipped with a warning.
 `chezmoi apply` (or wait out the 168h `refreshPeriod`). Deleting it from the source repo
 makes the next apply prune its links.
 
+**Add a third-party skill:** paste the vendor's install line as-is —
+`~/.zsh/skills-apm.zsh` shadows `npx` so that
+
+```sh
+npx skills add humanlayer/skills --skill show-me
+```
+
+resolves each `--skill` name to its directory in the repo (`gh` reads the file tree),
+appends the dependency to `dot_apm/apm.yml` **in the source dir**, and runs `chezmoi
+apply`. It prints the resolved dependency and asks before writing, unless the pasted
+command carried `-y` or `--all`. `--skill '*'`, `--all`, and a bare repo all become a
+whole-repo dependency; `-a/--agent`, `-g`, and `--copy` are dropped, because the target
+set is `apm.yml`'s job. Only `add` is intercepted — `--list` and every other subcommand
+run the real CLI, and `command npx skills add …` bypasses the shim entirely.
+
 **Add a source:** add a stanza to `.chezmoiexternal.toml.tmpl` and its name to `SOURCES` in
 the script, then `chezmoi apply`. Removing it from both and deleting
 `~/.agents/sources/<name>` cleanly unlinks everything it provided.
@@ -163,8 +178,10 @@ one in with `!.agents/sources/<name>` plus `!.agents/sources/<name>/**`).
 
 - Write access to a subscribed source repo is code execution for your agents.
   Branch-protect team sources; treat third-party sources like dependencies.
-- `apm install <pkg>` appends to the deployed `~/.apm/apm.yml`, which the next apply
-  overwrites — declare third-party skills in `dot_apm/apm.yml` instead.
+- `apm install <pkg>` appends to the deployed `~/.apm/apm.yml` and `npx skills add` writes
+  real dirs under `~/.claude/skills` — the next apply overwrites the first and shadows the
+  second. Declare third-party skills in `dot_apm/apm.yml`, or let the `npx skills add` shim
+  above do it.
 - The symlinks are script state, not chezmoi state — `chezmoi managed` won't list them.
 - Gating a source off a machine doesn't delete already-cloned files (standard chezmoi
   ignore semantics); remove them by hand.
