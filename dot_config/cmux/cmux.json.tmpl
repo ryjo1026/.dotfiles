@@ -16,7 +16,9 @@
     "lazygit": {
       "type": "command",
       "title": "Lazygit",
-      "command": "exec cmux-split-run right lazygit",
+      // cmux has no headless action target, so this runs in a transient focused tab; every path must exec so the tab closes immediately.
+      // The toggle matches the rename-tab title, lowercase "lazygit"; this action's own tab ("Lazygit") must stay capitalized to never self-match.
+      "command": "s=$(cmux list-panels --json | jq -r '[.surfaces[] | select(.title==\"lazygit\") | .ref] | first // empty'); [ -n \"$s\" ] && exec cmux focus-panel --panel \"$s\"; r=$(cmux new-split right --focus true --json | jq -r .surface_ref); cmux rename-tab --surface \"$r\" lazygit; exec cmux send --surface \"$r\" 'exec lazygit\\r'",
       "target": "newTabInCurrentPane",
       "shortcut": ["ctrl+b", "g"]
     }
