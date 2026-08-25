@@ -21,6 +21,17 @@
       "command": "s=$(cmux list-panels --json | jq -r '[.surfaces[] | select(.title==\"lazygit\") | .ref] | first // empty'); [ -n \"$s\" ] && exec cmux focus-panel --panel \"$s\"; r=$(cmux new-split right --focus true --json | jq -r .surface_ref); cmux rename-tab --surface \"$r\" lazygit; exec cmux send --surface \"$r\" 'exec lazygit\\r'",
       "target": "newTabInCurrentPane",
       "shortcut": ["ctrl+b", "g"]
+    },
+    "fork-conversation": {
+      "type": "command",
+      "title": "Fork conversation to new tab",
+      // cmux's native Fork Conversation is menu/palette-only (not a bindable action as of 0.64); this rebuilds it from the same
+      // per-surface resume_binding data. Runs in this action's transient tab, which then becomes the forked conversation.
+      // Target = the conversation you were looking at: claude tabs in the invoking pane (the transient tab's own pane) win over
+      // other panes, freshest agent-hook update breaks ties; workspace-wide newest is the fallback for non-claude panes.
+      "command": "v=$(cmux list-panels --json | jq -r '(.surfaces[] | select(.focused) | .pane_ref) as $p | [.surfaces[] | select((.focused | not) and .resume_binding.kind == \"claude\")] | (map(select(.pane_ref == $p))) as $near | (if ($near | length) > 0 then $near else . end) | if length == 0 then empty else (max_by(.resume_binding.updated_at // 0) | .resume_binding.checkpoint_id + \" \" + (.resume_binding.permission_mode // \"default\") + \" \" + (.resume_binding.cwd // \"\")) end'); read -r id mode cwd <<<\"$v\"; [ -n \"$id\" ] || exit; [ -n \"$cwd\" ] && cd -- \"$cwd\" 2>/dev/null; exec claude --resume \"$id\" --fork-session --permission-mode \"$mode\"",
+      "target": "newTabInCurrentPane",
+      "shortcut": ["ctrl+b", "shift+f"]
     }
   },
   "shortcuts": {
