@@ -1,0 +1,52 @@
+{{- if ne .chezmoi.os "darwin" -}}
+#!/usr/bin/env bash
+exit 0
+{{- else -}}
+#!/usr/bin/env bash
+# Deliberately not run_onchange_: chezmoi records an onchange_ script as done the
+# moment it exits, which for a backgrounded bundle means "done" the moment it
+# forks -- a failed run would never be retried. Instead this script runs every
+# apply and the stamp file, written only after brew bundle *succeeds*, decides
+# whether there is any work to do.
+set -euo pipefail
+
+command -v brew >/dev/null 2>&1 || exit 0
+
+BREWFILE="$HOME/.Brewfile"
+[[ -f "$BREWFILE" ]] || exit 0
+
+STATE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/chezmoi"
+STAMP="$STATE_DIR/brew-bundle.sha256"
+LOG="$STATE_DIR/brew-bundle.log"
+mkdir -p "$STATE_DIR"
+
+want="$(shasum -a 256 "$BREWFILE" | cut -d' ' -f1)"
+if [[ -f "$STAMP" && "$(cat "$STAMP")" == "$want" ]]; then
+  exit 0
+fi
+
+echo "brew bundle: started in the background (profile={{ .profile | default "home" }}, log: $LOG)"
+
+# Detached so `chezmoi apply` returns immediately. Output goes straight to the
+# terminal so a failure -- usually a moved tap or a renamed cask -- shows up in
+# the shell with the exact command to rerun by hand.
+(
+  trap '' HUP
+  if { : >/dev/tty; } 2>/dev/null; then
+    exec >/dev/tty 2>&1
+  fi
+  if brew bundle --file "$BREWFILE" >"$LOG" 2>&1; then
+    printf '%s' "$want" >"$STAMP"
+    echo "brew bundle: finished, everything installed"
+  else
+    status=$?
+    echo
+    echo "brew bundle: FAILED (exit $status). Fix ~/.local/share/chezmoi/dot_Brewfile.tmpl, then:"
+    echo "  chezmoi apply   # or: brew bundle --file $BREWFILE"
+    echo "--- $LOG ---"
+    cat "$LOG"
+    echo "--- end $LOG ---"
+  fi
+) </dev/null &
+disown
+{{- end }}
