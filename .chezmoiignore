@@ -10,6 +10,11 @@ docs
 .aerospace.toml
 {{- end }}
 
+{{- if or (not .sketchybarEnabled) (ne .chezmoi.os "darwin") }}
+.config/sketchybar
+.config/sketchybar/**
+{{- end }}
+
 {{- if ne .chezmoi.os "darwin" }}
 # Skill sources pull on Macs by default. Opt one into the server with:
 #   !.agents/sources/<name>

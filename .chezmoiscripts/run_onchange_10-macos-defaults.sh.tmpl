@@ -34,6 +34,15 @@ defaults write com.apple.dock expose-group-apps -bool true
 defaults write com.apple.spaces spans-displays -bool true
 {{- end }}
 
+# Menu bar: SketchyBar replaces it, so hide the system one when enabled and
+# restore the normal always-visible menu bar when disabled.
+{{- if .sketchybarEnabled }}
+echo "SketchyBar enabled: hiding the macOS menu bar..."
+defaults write NSGlobalDomain _HIHideMenuBar -bool true
+{{- else }}
+defaults write NSGlobalDomain _HIHideMenuBar -bool false
+{{- end }}
+
 # Attempt to uto-apply changes, some may require a logout
 killall Dock
 killall SystemUIServer

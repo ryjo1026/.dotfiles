@@ -2,6 +2,7 @@
 {{- $email := promptStringOnce . "email" "Email address" -}}
 {{- $sshKeyTitle := promptStringOnce . "sshKeyTitle" "SSH key title" -}}
 {{- $aerospaceEnabled := promptBoolOnce . "aerospaceEnabled" "Enable AeroSpace window manager" -}}
+{{- $sketchybarEnabled := promptBoolOnce . "sketchybarEnabled" "Enable SketchyBar status bar" -}}
 {{- $gitSigningKey := promptStringOnce . "gitSigningKey" "Git signing key path" -}}
 
 [data]
@@ -9,4 +10,5 @@
     email = {{ $email | quote }}
     sshKeyTitle = {{ $sshKeyTitle | quote }}
     aerospaceEnabled = {{ $aerospaceEnabled }}
+    sketchybarEnabled = {{ $sketchybarEnabled }}
     gitSigningKey = {{ $gitSigningKey | quote }}

@@ -30,8 +30,14 @@ adds Obsidian, Codex, and Datadog's `pup`.
 **Window management** — [AeroSpace](https://github.com/nikitabobko/AeroSpace) tiling WM
 when `aerospaceEnabled` is true, otherwise Rectangle.
 
+**Status bar** — [SketchyBar](https://felixkratz.github.io/SketchyBar/) when
+`sketchybarEnabled` is true: installed from the `FelixKratz/formulae` tap with Hack Nerd
+Font, run as a `brew services` job, with the macOS menu bar hidden in its place. Turning
+the flag off stops the service and restores the normal menu bar.
+
 **macOS defaults** — fast key repeat, Aerial screen saver, hot corners, password-on-wake,
-plus the Dock/Spaces tweaks that make AeroSpace behave.
+plus the Dock/Spaces tweaks that make AeroSpace behave and the menu-bar autohide that
+SketchyBar wants.
 
 **Terminal and editors** — Ghostty (One Dark, quick terminal on `⌘\``), a vim config with
 One Dark and arrow keys disabled, and a small tmux config with mouse support and vim-style
@@ -65,6 +71,7 @@ bootstrap scripts.
 | `email` | git identity and the comment on the generated SSH key |
 | `sshKeyTitle` | label for the generated SSH key |
 | `aerospaceEnabled` | install AeroSpace and apply the WM-friendly macOS defaults |
+| `sketchybarEnabled` | install SketchyBar, run it as a service, and hide the macOS menu bar |
 | `gitSigningKey` | public key used to sign commits |
 
 Fallbacks for anything unset are in `.chezmoidata/defaults.toml`.
@@ -80,6 +87,7 @@ Fallbacks for anything unset are in `.chezmoidata/defaults.toml`.
 | `dot_vimrc`, `dot_vim/` | vim config |
 | `dot_tmux.conf` | tmux config |
 | `dot_config/ghostty/`, `dot_config/cmux/` | Ghostty terminal and cmux settings |
+| `dot_config/sketchybar/` | SketchyBar bar config and plugin scripts (opt-in) |
 | `.chezmoi.toml.tmpl` | config prompts run on `chezmoi init` |
 | `.chezmoidata/defaults.toml` | default template values |
 | `.chezmoiexternal.toml.tmpl` | skill source repos, cloned per machine profile |

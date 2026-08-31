@@ -1,0 +1,34 @@
+{{- if ne .chezmoi.os "darwin" -}}
+#!/usr/bin/env bash
+exit 0
+{{- else -}}
+#!/usr/bin/env bash
+# Starts or stops the SketchyBar service to match `sketchybarEnabled`.
+# run_onchange_: the flag is baked into the body below, so flipping it re-runs this.
+# sketchybarEnabled={{ .sketchybarEnabled }}
+set -euo pipefail
+
+command -v brew >/dev/null 2>&1 || exit 0
+
+{{ if .sketchybarEnabled -}}
+if ! command -v sketchybar >/dev/null 2>&1; then
+  # brew bundle runs detached and may not have finished yet; the next apply picks this up.
+  echo "sketchybar: not installed yet, skipping service start (rerun 'chezmoi apply' after brew bundle finishes)"
+  exit 0
+fi
+
+if brew services list | awk '$1 == "sketchybar" { print $2 }' | grep -q started; then
+  echo "sketchybar: reloading config"
+  sketchybar --reload
+else
+  echo "sketchybar: starting service"
+  brew services start sketchybar
+fi
+{{- else -}}
+if command -v sketchybar >/dev/null 2>&1 \
+  && brew services list | awk '$1 == "sketchybar" { print $2 }' | grep -q started; then
+  echo "sketchybar: disabled, stopping service"
+  brew services stop sketchybar
+fi
+{{- end }}
+{{- end }}

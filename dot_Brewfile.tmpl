@@ -23,6 +23,10 @@ cask "nikitabobko/tap/aerospace"
 {{ else -}}
 cask "rectangle"
 {{ end -}}
+{{ if .sketchybarEnabled -}}
+tap "FelixKratz/formulae"
+brew "FelixKratz/formulae/sketchybar"
+{{ end -}}
 
 # CLI Tools
 brew "gh"
@@ -32,6 +36,9 @@ brew "fzf"
 
 # Fonts
 cask "font-fira-code"
+{{ if .sketchybarEnabled -}}
+cask "font-hack-nerd-font"
+{{ end -}}
 
 {{ if eq .profile "personal" -}}
 # Work cc not managed by brew to stay on bleeding edge

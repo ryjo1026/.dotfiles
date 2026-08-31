@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# SketchyBar — https://felixkratz.github.io/SketchyBar/
+# Managed by chezmoi: edit dot_config/sketchybar/ in the source repo, never ~/.config/sketchybar.
+
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+
+# Rose Pine, to match Ghostty and cmux
+BASE=0xff191724
+SURFACE=0x40ffffff
+TEXT=0xffe0def4
+SUBTLE=0xff908caa
+GOLD=0xfff6c177
+
+sketchybar --bar position=top height=36 blur_radius=30 color=$BASE
+
+default=(
+  padding_left=5
+  padding_right=5
+  icon.font="Hack Nerd Font:Bold:16.0"
+  label.font="Hack Nerd Font:Bold:13.0"
+  icon.color=$TEXT
+  label.color=$TEXT
+  icon.padding_left=4
+  icon.padding_right=4
+  label.padding_left=4
+  label.padding_right=4
+)
+sketchybar --default "${default[@]}"
+
+# --- left: mission control spaces ------------------------------------------
+SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
+for i in "${!SPACE_ICONS[@]}"; do
+  sid=$((i + 1))
+  space=(
+    space="$sid"
+    icon="${SPACE_ICONS[i]}"
+    icon.padding_left=7
+    icon.padding_right=7
+    background.color=$SURFACE
+    background.corner_radius=5
+    background.height=24
+    background.drawing=off
+    label.drawing=off
+    script="$PLUGIN_DIR/space.sh"
+  )
+  sketchybar --add space "space.$sid" left --set "space.$sid" "${space[@]}"
+done
+
+sketchybar --add item chevron left \
+           --set chevron icon= label.drawing=off icon.color=$SUBTLE \
+           --add item front_app left \
+           --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
+           --subscribe front_app front_app_switched
+
+# --- right: clock, volume, battery ------------------------------------------
+sketchybar --add item clock right \
+           --set clock update_freq=10 icon= icon.color=$GOLD script="$PLUGIN_DIR/clock.sh" \
+           --add item volume right \
+           --set volume script="$PLUGIN_DIR/volume.sh" \
+           --subscribe volume volume_change \
+           --add item battery right \
+           --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
+           --subscribe battery system_woke power_source_change
+
+sketchybar --update
