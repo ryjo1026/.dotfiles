@@ -15,4 +15,6 @@ docs
 #   !.agents/sources/<name>
 #   !.agents/sources/<name>/**
 .agents/sources/**
+.claude/CLAUDE.md
+.codex/AGENTS.md
 {{- end }}

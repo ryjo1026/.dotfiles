@@ -16,10 +16,13 @@
     url = "git@{{ $personal }}:ryjo1026/skills.git"
     refreshPeriod = "168h"
 
-# Personal-account private skills: only Ryan, but every machine.
+# Private skills, including the global agent instructions symlinked to
+# ~/.claude/CLAUDE.md and ~/.codex/AGENTS.md. Each machine reads the account
+# whose identity plain `github.com` already resolves to, so no SSH alias.
+{{- $privateOwner := eq .profile "work" | ternary "ryanjohnston-abridge" "ryjo1026" }}
 [".agents/sources/private"]
     type = "git-repo"
-    url = "git@{{ $personal }}:ryjo1026/skills-private.git"
+    url = "git@github.com:{{ $privateOwner }}/skills-private.git"
     refreshPeriod = "168h"
 
 # The team source is work-hosted, so it gates on the work profile.

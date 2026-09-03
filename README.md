@@ -80,6 +80,7 @@ Fallbacks for anything unset are in `.chezmoidata/defaults.toml`.
 | `dot_vimrc`, `dot_vim/` | vim config |
 | `dot_tmux.conf` | tmux config |
 | `dot_config/ghostty/`, `dot_config/cmux/` | Ghostty terminal and cmux settings |
+| `dot_claude/`, `dot_codex/` | symlink global agent instructions (`~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`) to `AGENTS.md` in the private skills repo |
 | `.chezmoi.toml.tmpl` | config prompts run on `chezmoi init` |
 | `.chezmoidata/defaults.toml` | default template values |
 | `.chezmoiexternal.toml.tmpl` | skill source repos, cloned per machine profile |
